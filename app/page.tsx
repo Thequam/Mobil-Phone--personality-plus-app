@@ -6,6 +6,201 @@ import { useState, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
+// Add print styles
+const printStyles = `
+@media print {
+  @page {
+    size: A4;
+    margin: 0.5in;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Hide the normal app layout */
+  .min-h-screen {
+    display: none !important;
+  }
+  
+  /* Show only print content */
+  .print-content {
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Page breaks */
+  .print-page {
+    page-break-after: always;
+    width: 100%;
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+  
+  .print-page:last-child {
+    page-break-after: auto;
+  }
+  
+  /* Results page styling */
+  .print-results h1 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .print-results h3 {
+    font-size: 16px;
+    margin: 15px 0 10px 0;
+    color: #444;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+  }
+  
+  .print-results .score-display {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin: 15px 0;
+    font-size: 14px;
+  }
+  
+  .print-results .score-item {
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .print-results .score-item .score-label {
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  
+  .print-results .score-item .score-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Assessment page styling */
+  .print-assessment {
+    font-size: 9px;
+  }
+  
+  .print-assessment h1 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .print-assessment table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .print-assessment th,
+  .print-assessment td {
+    border: 1px solid #000;
+    padding: 3px 5px;
+    text-align: left;
+    vertical-align: top;
+  }
+  
+  .print-assessment th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
+    font-size: 9px;
+  }
+  
+  .print-assessment .row-number {
+    text-align: center;
+    font-weight: bold;
+    width: 25px;
+  }
+  
+  .print-assessment .section-header {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    text-align: center;
+    font-size: 10px;
+  }
+  
+  /* Info page styling */
+  .print-info {
+    font-size: 8px;
+  }
+  
+  .print-info h1 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .print-info .personality-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    height: calc(100vh - 100px);
+  }
+  
+  .print-info .personality-card {
+    border: 2px solid #000;
+    border-radius: 8px;
+    overflow: hidden;
+    break-inside: avoid;
+    height: fit-content;
+  }
+  
+  .print-info .personality-header {
+    padding: 8px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  .print-info .personality-content {
+    padding: 8px;
+    font-size: 7px;
+    line-height: 1.2;
+  }
+  
+  .print-info .section-title {
+    font-weight: bold;
+    font-size: 8px;
+    margin: 6px 0 3px 0;
+    color: #333;
+    text-transform: uppercase;
+  }
+  
+  .print-info .section-title:first-child {
+    margin-top: 0;
+  }
+  
+  .print-info .trait-item {
+    margin-bottom: 1px;
+    line-height: 1.1;
+  }
+}
+`
+
+// Add the styles to the document head
+if (typeof document !== "undefined") {
+  const styleElement = document.createElement("style")
+  styleElement.textContent = printStyles
+  document.head.appendChild(styleElement)
+}
+
 const personalityData = [
   { sanguine: "Animated", choleric: "Adventurous", melancholy: "Analytical", phlegmatic: "Adaptable" },
   { sanguine: "Playful", choleric: "Persuasive", melancholy: "Persistent", phlegmatic: "Peaceful" },
@@ -64,253 +259,254 @@ const temperamentNames = {
   phlegmatic: "Peaceful Phlegmatic",
 }
 
+// Detailed information for each temperament (used by both the Info page and print)
+const personalityDetails = [
+  {
+    key: "sanguine",
+    title: "Popular Sanguine",
+    subtitle: "Extrovert • Talker • Optimist",
+    color: "#3B82F6",
+    bgColor: "bg-blue-500",
+    sections: {
+      strengths: [
+        "Appealing personality",
+        "Talkative, storyteller",
+        "Life of the party",
+        "Good sense of humor",
+        "Memory for color",
+        "Physically holds on to listener",
+        "Emotional and demonstrative",
+        "Enthusiastic",
+        "Cheerful and bubbling over",
+        "Curious",
+        "Good on stage",
+        "Wide-eyed and innocent",
+        "Lives in the present",
+        "Changeable disposition",
+        "Sincere at heart",
+        "Always a child",
+      ],
+      emotions: [
+        "Makes home fun",
+        "Is liked by children's friends",
+        "Turns disaster into humor",
+        "Is the circus master",
+        "Envied by others",
+        "Doesn't hold grudges",
+        "Apologizes quickly",
+        "Prevents dull moments",
+        "Likes spontaneous activities",
+      ],
+      atWork: [
+        "Thinks up new activities",
+        "Looks great on surface",
+        "Creative and colorful",
+        "Has energy and enthusiasm",
+        "Starts in a flashy way",
+        "Inspires others to join",
+        "Charms others at work",
+      ],
+      asParent: [
+        "Makes friends easily",
+        "Loves people",
+        "Thrives on compliments",
+        "Seems exciting",
+        "Envied by others",
+        "Doesn't hold grudges",
+        "Apologizes quickly",
+        "Prevents dull moments",
+        "Likes spontaneous activities",
+      ],
+      asFriend: [
+        "Makes friends easily",
+        "Loves people",
+        "Thrives on compliments",
+        "Seems exciting",
+        "Envied by others",
+        "Doesn't hold grudges",
+        "Apologizes quickly",
+        "Prevents dull moments",
+        "Likes spontaneous activities",
+      ],
+    },
+  },
+  {
+    key: "choleric",
+    title: "Powerful Choleric",
+    subtitle: "Extrovert • Doer • Optimist",
+    color: "#EF4444",
+    bgColor: "bg-red-500",
+    sections: {
+      strengths: [
+        "Born leader",
+        "Dynamic and active",
+        "Compulsive need for change",
+        "Must correct wrongs",
+        "Strong willed and decisive",
+        "Unemotional",
+        "Not easily discouraged",
+        "Independent and self-sufficient",
+        "Exudes confidence",
+        "Can run anything",
+      ],
+      emotions: [
+        "Exerts sound leadership",
+        "Establishes goals",
+        "Motivates family to action",
+        "Knows the right answer",
+        "Organizes household",
+      ],
+      atWork: [
+        "Goal oriented",
+        "Sees the whole picture",
+        "Organizes well",
+        "Seeks practical solutions",
+        "Moves quickly to action",
+        "Delegates work",
+        "Insists on production",
+        "Makes the goal",
+        "Stimulates activity",
+        "Thrives on opposition",
+      ],
+      asParent: [
+        "Exerts sound leadership",
+        "Establishes goals",
+        "Motivates family to action",
+        "Knows the right answer",
+        "Organizes household",
+      ],
+      asFriend: [
+        "Has little need for friends",
+        "Will work for group activity",
+        "Will lead and organize",
+        "Is usually right",
+        "Excels in emergencies",
+      ],
+    },
+  },
+  {
+    key: "melancholy",
+    title: "Perfect Melancholy",
+    subtitle: "Introvert • Thinker • Pessimist",
+    color: "#22C55E",
+    bgColor: "bg-green-500",
+    sections: {
+      strengths: [
+        "Deep and thoughtful",
+        "Analytical",
+        "Serious and purposeful",
+        "Genius prone",
+        "Talented and creative",
+        "Artistic and musical",
+        "Philosophical and poetic",
+        "Appreciative of beauty",
+        "Sensitive to others",
+        "Self-sacrificing",
+        "Conscientious",
+        "Idealistic",
+      ],
+      emotions: [
+        "Sets high standards",
+        "Wants everything done right",
+        "Keeps home in good order",
+        "Picks up after children",
+        "Sacrifices own will for others",
+        "Encourages scholarship and talent",
+      ],
+      atWork: [
+        "Schedule oriented",
+        "Perfectionist, high standards",
+        "Detail conscious",
+        "Persistent and thorough",
+        "Orderly and organized",
+        "Neat and tidy",
+        "Economical",
+        "Sees the problems",
+        "Finds creative solutions",
+        "Needs to finish what is started",
+        "Likes charts, graphs, figures, lists",
+      ],
+      asParent: [
+        "Sets high standards",
+        "Wants everything done right",
+        "Keeps home in good order",
+        "Picks up after children",
+        "Sacrifices own will for others",
+        "Encourages scholarship and talent",
+      ],
+      asFriend: [
+        "Makes friends cautiously",
+        "Content to stay in background",
+        "Avoids causing attention",
+        "Faithful and devoted",
+        "Will listen to complaints",
+        "Can solve other's problems",
+        "Deep concern for other people",
+        "Moved to tears with compassion",
+        "Seeks ideal mate",
+      ],
+    },
+  },
+  {
+    key: "phlegmatic",
+    title: "Peaceful Phlegmatic",
+    subtitle: "Introvert • Watcher • Pessimist",
+    color: "#A855F7",
+    bgColor: "bg-purple-500",
+    sections: {
+      strengths: [
+        "Low-key personality",
+        "Easygoing and relaxed",
+        "Calm, cool and collected",
+        "Patient, well balanced",
+        "Consistent life",
+        "Quiet but witty",
+        "Sympathetic",
+        "Keeps emotions hidden",
+        "Happily reconciled to life",
+        "All-purpose person",
+      ],
+      emotions: [
+        "Makes good parent",
+        "Takes time for children",
+        "Is not in a hurry",
+        "Can take the good with the bad",
+        "Doesn't get upset easily",
+      ],
+      atWork: [
+        "Competent and steady",
+        "Peaceful and agreeable",
+        "Has administrative ability",
+        "Mediates problems",
+        "Avoids conflicts",
+        "Good under pressure",
+        "Finds the easy way",
+      ],
+      asParent: [
+        "Makes good parent",
+        "Takes time for children",
+        "Is not in a hurry",
+        "Can take the good with the bad",
+        "Doesn't get upset easily",
+      ],
+      asFriend: [
+        "Easy to get along with",
+        "Pleasant and enjoyable",
+        "Inoffensive",
+        "Good listener",
+        "Dry sense of humor",
+        "Enjoys watching people",
+        "Has many friends",
+        "Has compassion and concern",
+      ],
+    },
+  },
+]
+
 const PersonalityDetailsPage = () => {
   const [currentPersonality, setCurrentPersonality] = useState(0)
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
-
-  const personalityDetails = [
-    {
-      key: "sanguine",
-      title: "Popular Sanguine",
-      subtitle: "Extrovert • Talker • Optimist",
-      color: "#3B82F6",
-      bgColor: "bg-blue-500",
-      sections: {
-        strengths: [
-          "Appealing personality",
-          "Talkative, storyteller",
-          "Life of the party",
-          "Good sense of humor",
-          "Memory for color",
-          "Physically holds on to listener",
-          "Emotional and demonstrative",
-          "Enthusiastic",
-          "Cheerful and bubbling over",
-          "Curious",
-          "Good on stage",
-          "Wide-eyed and innocent",
-          "Lives in the present",
-          "Changeable disposition",
-          "Sincere at heart",
-          "Always a child",
-        ],
-        emotions: [
-          "Makes home fun",
-          "Is liked by children's friends",
-          "Turns disaster into humor",
-          "Is the circus master",
-          "Envied by others",
-          "Doesn't hold grudges",
-          "Apologizes quickly",
-          "Prevents dull moments",
-          "Likes spontaneous activities",
-        ],
-        atWork: [
-          "Thinks up new activities",
-          "Looks great on surface",
-          "Creative and colorful",
-          "Has energy and enthusiasm",
-          "Starts in a flashy way",
-          "Inspires others to join",
-          "Charms others at work",
-        ],
-        asParent: [
-          "Makes friends easily",
-          "Loves people",
-          "Thrives on compliments",
-          "Seems exciting",
-          "Envied by others",
-          "Doesn't hold grudges",
-          "Apologizes quickly",
-          "Prevents dull moments",
-          "Likes spontaneous activities",
-        ],
-        asFriend: [
-          "Makes friends easily",
-          "Loves people",
-          "Thrives on compliments",
-          "Seems exciting",
-          "Envied by others",
-          "Doesn't hold grudges",
-          "Apologizes quickly",
-          "Prevents dull moments",
-          "Likes spontaneous activities",
-        ],
-      },
-    },
-    {
-      key: "choleric",
-      title: "Powerful Choleric",
-      subtitle: "Extrovert • Doer • Optimist",
-      color: "#EF4444",
-      bgColor: "bg-red-500",
-      sections: {
-        strengths: [
-          "Born leader",
-          "Dynamic and active",
-          "Compulsive need for change",
-          "Must correct wrongs",
-          "Strong willed and decisive",
-          "Unemotional",
-          "Not easily discouraged",
-          "Independent and self-sufficient",
-          "Exudes confidence",
-          "Can run anything",
-        ],
-        emotions: [
-          "Exerts sound leadership",
-          "Establishes goals",
-          "Motivates family to action",
-          "Knows the right answer",
-          "Organizes household",
-        ],
-        atWork: [
-          "Goal oriented",
-          "Sees the whole picture",
-          "Organizes well",
-          "Seeks practical solutions",
-          "Moves quickly to action",
-          "Delegates work",
-          "Insists on production",
-          "Makes the goal",
-          "Stimulates activity",
-          "Thrives on opposition",
-        ],
-        asParent: [
-          "Exerts sound leadership",
-          "Establishes goals",
-          "Motivates family to action",
-          "Knows the right answer",
-          "Organizes household",
-        ],
-        asFriend: [
-          "Has little need for friends",
-          "Will work for group activity",
-          "Will lead and organize",
-          "Is usually right",
-          "Excels in emergencies",
-        ],
-      },
-    },
-    {
-      key: "melancholy",
-      title: "Perfect Melancholy",
-      subtitle: "Introvert • Thinker • Pessimist",
-      color: "#22C55E",
-      bgColor: "bg-green-500",
-      sections: {
-        strengths: [
-          "Deep and thoughtful",
-          "Analytical",
-          "Serious and purposeful",
-          "Genius prone",
-          "Talented and creative",
-          "Artistic and musical",
-          "Philosophical and poetic",
-          "Appreciative of beauty",
-          "Sensitive to others",
-          "Self-sacrificing",
-          "Conscientious",
-          "Idealistic",
-        ],
-        emotions: [
-          "Sets high standards",
-          "Wants everything done right",
-          "Keeps home in good order",
-          "Picks up after children",
-          "Sacrifices own will for others",
-          "Encourages scholarship and talent",
-        ],
-        atWork: [
-          "Schedule oriented",
-          "Perfectionist, high standards",
-          "Detail conscious",
-          "Persistent and thorough",
-          "Orderly and organized",
-          "Neat and tidy",
-          "Economical",
-          "Sees the problems",
-          "Finds creative solutions",
-          "Needs to finish what is started",
-          "Likes charts, graphs, figures, lists",
-        ],
-        asParent: [
-          "Sets high standards",
-          "Wants everything done right",
-          "Keeps home in good order",
-          "Picks up after children",
-          "Sacrifices own will for others",
-          "Encourages scholarship and talent",
-        ],
-        asFriend: [
-          "Makes friends cautiously",
-          "Content to stay in background",
-          "Avoids causing attention",
-          "Faithful and devoted",
-          "Will listen to complaints",
-          "Can solve other's problems",
-          "Deep concern for other people",
-          "Moved to tears with compassion",
-          "Seeks ideal mate",
-        ],
-      },
-    },
-    {
-      key: "phlegmatic",
-      title: "Peaceful Phlegmatic",
-      subtitle: "Introvert • Watcher • Pessimist",
-      color: "#A855F7",
-      bgColor: "bg-purple-500",
-      sections: {
-        strengths: [
-          "Low-key personality",
-          "Easygoing and relaxed",
-          "Calm, cool and collected",
-          "Patient, well balanced",
-          "Consistent life",
-          "Quiet but witty",
-          "Sympathetic",
-          "Keeps emotions hidden",
-          "Happily reconciled to life",
-          "All-purpose person",
-        ],
-        emotions: [
-          "Makes good parent",
-          "Takes time for children",
-          "Is not in a hurry",
-          "Can take the good with the bad",
-          "Doesn't get upset easily",
-        ],
-        atWork: [
-          "Competent and steady",
-          "Peaceful and agreeable",
-          "Has administrative ability",
-          "Mediates problems",
-          "Avoids conflicts",
-          "Good under pressure",
-          "Finds the easy way",
-        ],
-        asParent: [
-          "Makes good parent",
-          "Takes time for children",
-          "Is not in a hurry",
-          "Can take the good with the bad",
-          "Doesn't get upset easily",
-        ],
-        asFriend: [
-          "Easy to get along with",
-          "Pleasant and enjoyable",
-          "Inoffensive",
-          "Good listener",
-          "Dry sense of humor",
-          "Enjoys watching people",
-          "Has many friends",
-          "Has compassion and concern",
-        ],
-      },
-    },
-  ]
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEndX(null)
@@ -631,6 +827,13 @@ export default function PersonalityPlusApp() {
 
     return (
       <div
+        data-chart={
+          title === "Personality Profile Strengths"
+            ? "strengths"
+            : title === "Personality Profile Weaknesses"
+              ? "weaknesses"
+              : "total"
+        }
         className={`p-3 sm:p-6 ${isTotal ? "bg-gradient-to-br from-purple-100 via-blue-100 to-indigo-100 border-2 border-purple-300" : "bg-white"} rounded-lg shadow-lg mb-4 sm:mb-6 mx-2 sm:mx-0`}
       >
         <h3
@@ -825,6 +1028,10 @@ export default function PersonalityPlusApp() {
         </div>
       </div>
     )
+  }
+
+  const handlePrint = () => {
+    window.print()
   }
 
   return (
@@ -1168,10 +1375,10 @@ export default function PersonalityPlusApp() {
             </div>
             <RadarChart data={scores} title="Total Personality Profile" isTotal={true} />
 
-            {/* Print Report Button */}
+            {/* Print Button */}
             <div className="flex justify-center mt-8 mb-6">
               <button
-                onClick={() => window.print()}
+                onClick={handlePrint}
                 className="w-48 h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg transition-all duration-300 backdrop-blur-md border border-white/20 hover:shadow-xl hover:scale-105 active:scale-95"
                 style={{
                   backdropFilter: "blur(20px)",
@@ -1181,6 +1388,242 @@ export default function PersonalityPlusApp() {
                 <span className="flex items-center justify-center gap-2">Print Report</span>
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Print Content - Hidden on screen, visible when printing */}
+      <div className="print-content" style={{ display: "none" }}>
+        {/* Page 1: Results */}
+        <div className="print-page print-results">
+          <h1>Personality Assessment Results</h1>
+
+          <h3>Personality Profile Strengths</h3>
+          <div className="score-display">
+            <div className="score-item">
+              <div className="score-label">Popular Sanguine</div>
+              <div className="score-value" style={{ color: "#3B82F6" }}>
+                {strengthScores.sanguine}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Powerful Choleric</div>
+              <div className="score-value" style={{ color: "#EF4444" }}>
+                {strengthScores.choleric}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Perfect Melancholy</div>
+              <div className="score-value" style={{ color: "#22C55E" }}>
+                {strengthScores.melancholy}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Peaceful Phlegmatic</div>
+              <div className="score-value" style={{ color: "#A855F7" }}>
+                {strengthScores.phlegmatic}
+              </div>
+            </div>
+          </div>
+
+          <h3>Personality Profile Weaknesses</h3>
+          <div className="score-display">
+            <div className="score-item">
+              <div className="score-label">Popular Sanguine</div>
+              <div className="score-value" style={{ color: "#3B82F6" }}>
+                {weaknessScores.sanguine}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Powerful Choleric</div>
+              <div className="score-value" style={{ color: "#EF4444" }}>
+                {weaknessScores.choleric}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Perfect Melancholy</div>
+              <div className="score-value" style={{ color: "#22C55E" }}>
+                {weaknessScores.melancholy}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Peaceful Phlegmatic</div>
+              <div className="score-value" style={{ color: "#A855F7" }}>
+                {weaknessScores.phlegmatic}
+              </div>
+            </div>
+          </div>
+
+          <h3>Total Personality Profile</h3>
+          <div className="score-display">
+            <div className="score-item">
+              <div className="score-label">Popular Sanguine</div>
+              <div className="score-value" style={{ color: "#3B82F6" }}>
+                {scores.sanguine}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Powerful Choleric</div>
+              <div className="score-value" style={{ color: "#EF4444" }}>
+                {scores.choleric}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Perfect Melancholy</div>
+              <div className="score-value" style={{ color: "#22C55E" }}>
+                {scores.melancholy}
+              </div>
+            </div>
+            <div className="score-item">
+              <div className="score-label">Peaceful Phlegmatic</div>
+              <div className="score-value" style={{ color: "#A855F7" }}>
+                {scores.phlegmatic}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Page 2: Assessment Sheet */}
+        <div className="print-page print-assessment">
+          <h1>Personality Scoring Sheet</h1>
+
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th style={{ backgroundColor: "#3182ce", color: "white" }}>Popular Sanguine</th>
+                <th style={{ backgroundColor: "#e53e3e", color: "white" }}>Powerful Choleric</th>
+                <th style={{ backgroundColor: "#38a169", color: "white" }}>Perfect Melancholy</th>
+                <th style={{ backgroundColor: "#805ad5", color: "white" }}>Peaceful Phlegmatic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan={5} className="section-header" style={{ backgroundColor: "#bee3f8" }}>
+                  Strengths
+                </td>
+              </tr>
+              {personalityData.slice(0, 20).map((row, index) => (
+                <tr key={index}>
+                  <td className="row-number">{index + 1}</td>
+                  <td>
+                    {selections[index] === "sanguine" ? "✓ " : ""}
+                    {row.sanguine}
+                  </td>
+                  <td>
+                    {selections[index] === "choleric" ? "✓ " : ""}
+                    {row.choleric}
+                  </td>
+                  <td>
+                    {selections[index] === "melancholy" ? "✓ " : ""}
+                    {row.melancholy}
+                  </td>
+                  <td>
+                    {selections[index] === "phlegmatic" ? "✓ " : ""}
+                    {row.phlegmatic}
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan={5} className="section-header" style={{ backgroundColor: "#faf089" }}>
+                  Weaknesses
+                </td>
+              </tr>
+              {personalityData.slice(20, 40).map((row, index) => (
+                <tr key={index + 20}>
+                  <td className="row-number">{index + 21}</td>
+                  <td style={{ backgroundColor: "#fffbeb" }}>
+                    {selections[index + 20] === "sanguine" ? "✓ " : ""}
+                    {row.sanguine}
+                  </td>
+                  <td style={{ backgroundColor: "#fffbeb" }}>
+                    {selections[index + 20] === "choleric" ? "✓ " : ""}
+                    {row.choleric}
+                  </td>
+                  <td style={{ backgroundColor: "#fffbeb" }}>
+                    {selections[index + 20] === "melancholy" ? "✓ " : ""}
+                    {row.melancholy}
+                  </td>
+                  <td style={{ backgroundColor: "#fffbeb" }}>
+                    {selections[index + 20] === "phlegmatic" ? "✓ " : ""}
+                    {row.phlegmatic}
+                  </td>
+                </tr>
+              ))}
+              <tr style={{ backgroundColor: "#fef3c7" }}>
+                <td style={{ backgroundColor: "#fde68a", fontWeight: "bold" }}>Score Strengths</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#1e40af" }}>{strengthScores.sanguine}</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#1e40af" }}>{strengthScores.choleric}</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#1e40af" }}>
+                  {strengthScores.melancholy}
+                </td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#1e40af" }}>
+                  {strengthScores.phlegmatic}
+                </td>
+              </tr>
+              <tr style={{ backgroundColor: "#fef3c7" }}>
+                <td style={{ backgroundColor: "#fde68a", fontWeight: "bold" }}>Score Weakness</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#dc2626" }}>{weaknessScores.sanguine}</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#dc2626" }}>{weaknessScores.choleric}</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#dc2626" }}>
+                  {weaknessScores.melancholy}
+                </td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#dc2626" }}>
+                  {weaknessScores.phlegmatic}
+                </td>
+              </tr>
+              <tr style={{ backgroundColor: "#fde68a" }}>
+                <td style={{ backgroundColor: "#fbbf24", fontWeight: "bold" }}>Score Total</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#7c3aed" }}>{scores.sanguine}</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#7c3aed" }}>{scores.choleric}</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#7c3aed" }}>{scores.melancholy}</td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "#7c3aed" }}>{scores.phlegmatic}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Page 3: Personality Info */}
+        <div className="print-page print-info">
+          <h1>Personality Types Information</h1>
+          <div className="personality-grid">
+            {personalityDetails.map((detail) => (
+              <div key={detail.key} className="personality-card">
+                <div className="personality-header" style={{ backgroundColor: detail.color }}>
+                  <div>{detail.title}</div>
+                  <div style={{ fontSize: "9px", opacity: 0.9 }}>{detail.subtitle}</div>
+                </div>
+                <div className="personality-content">
+                  <div className="section-title">STRENGTHS</div>
+                  {detail.sections.strengths.slice(0, 6).map((item, idx) => (
+                    <div key={idx} className="trait-item">
+                      • {item}
+                    </div>
+                  ))}
+
+                  <div className="section-title">EMOTIONS</div>
+                  {detail.sections.emotions.slice(0, 3).map((item, idx) => (
+                    <div key={idx} className="trait-item">
+                      • {item}
+                    </div>
+                  ))}
+
+                  <div className="section-title">AT WORK</div>
+                  {detail.sections.atWork.slice(0, 3).map((item, idx) => (
+                    <div key={idx} className="trait-item">
+                      • {item}
+                    </div>
+                  ))}
+
+                  <div className="section-title">AS FRIEND</div>
+                  {detail.sections.asFriend.slice(0, 3).map((item, idx) => (
+                    <div key={idx} className="trait-item">
+                      • {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
