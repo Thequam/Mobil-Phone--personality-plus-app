@@ -394,12 +394,12 @@ const PersonalityDetailsPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Strengths */}
             <div>
-              <h4 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 text-gray-800">STRENGTHS</h4>
-              <div className="space-y-1 sm:space-y-2">
+              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">STRENGTHS</h4>
+              <div className="space-y-0.5 sm:space-y-1">
                 {currentDetail.sections.strengths.map((strength, idx) => (
-                  <div key={idx} className="text-xs sm:text-sm text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-1 sm:mt-2 flex-shrink-0"
+                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
                       style={{ backgroundColor: currentDetail.color }}
                     ></span>
                     {strength}
@@ -410,12 +410,12 @@ const PersonalityDetailsPage = () => {
 
             {/* Emotions */}
             <div>
-              <h4 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 text-gray-800">EMOTIONS</h4>
-              <div className="space-y-1 sm:space-y-2">
+              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">EMOTIONS</h4>
+              <div className="space-y-0.5 sm:space-y-1">
                 {currentDetail.sections.emotions.map((emotion, idx) => (
-                  <div key={idx} className="text-xs sm:text-sm text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-1 sm:mt-2 flex-shrink-0"
+                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
                       style={{ backgroundColor: currentDetail.color }}
                     ></span>
                     {emotion}
@@ -426,12 +426,12 @@ const PersonalityDetailsPage = () => {
 
             {/* At Work */}
             <div>
-              <h4 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 text-gray-800">AT WORK</h4>
-              <div className="space-y-1 sm:space-y-2">
+              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">AT WORK</h4>
+              <div className="space-y-0.5 sm:space-y-1">
                 {currentDetail.sections.atWork.map((work, idx) => (
-                  <div key={idx} className="text-xs sm:text-sm text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-1 sm:mt-2 flex-shrink-0"
+                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
                       style={{ backgroundColor: currentDetail.color }}
                     ></span>
                     {work}
@@ -442,12 +442,12 @@ const PersonalityDetailsPage = () => {
 
             {/* As Parent */}
             <div>
-              <h4 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 text-gray-800">AS PARENT</h4>
-              <div className="space-y-1 sm:space-y-2">
+              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">AS PARENT</h4>
+              <div className="space-y-0.5 sm:space-y-1">
                 {currentDetail.sections.asParent.map((parent, idx) => (
-                  <div key={idx} className="text-xs sm:text-sm text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-1 sm:mt-2 flex-shrink-0"
+                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
                       style={{ backgroundColor: currentDetail.color }}
                     ></span>
                     {parent}
@@ -458,12 +458,12 @@ const PersonalityDetailsPage = () => {
 
             {/* As Friend */}
             <div>
-              <h4 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 text-gray-800">AS FRIEND</h4>
-              <div className="space-y-1 sm:space-y-2">
+              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">AS FRIEND</h4>
+              <div className="space-y-0.5 sm:space-y-1">
                 {currentDetail.sections.asFriend.map((friend, idx) => (
-                  <div key={idx} className="text-xs sm:text-sm text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-1 sm:mt-2 flex-shrink-0"
+                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
                       style={{ backgroundColor: currentDetail.color }}
                     ></span>
                     {friend}
@@ -489,6 +489,15 @@ export default function PersonalityPlusApp() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
+  const [savedData, setSavedData] = useState<{
+    name: string
+    date: string
+    selections: { [key: number]: string }
+    scores: any
+  } | null>(null)
+  const [showSavePopup, setShowSavePopup] = useState(false)
+  const [personName, setPersonName] = useState("")
 
   const handleSelection = (rowIndex: number, temperament: string) => {
     setSelections((prev) => ({
@@ -525,6 +534,31 @@ export default function PersonalityPlusApp() {
       }
     }
     return weaknessScores
+  }
+
+  const handleSaveResults = () => {
+    setShowSavePopup(true)
+  }
+
+  const confirmSave = () => {
+    if (personName.trim()) {
+      const currentDate = new Date().toLocaleDateString()
+      setSavedData({
+        name: personName.trim(),
+        date: currentDate,
+        selections: { ...selections },
+        scores: { ...scores },
+      })
+      setShowSavePopup(false)
+      setPersonName("")
+    }
+  }
+
+  const handleRefresh = () => {
+    setSelections({})
+    setSavedData(null)
+    setPersonName("")
+    setShowSavePopup(false)
   }
 
   // Touch handlers for swiping
@@ -606,12 +640,12 @@ export default function PersonalityPlusApp() {
         </h3>
 
         {/* Radar Chart and Bar Chart Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-center">
           {/* Radar Chart */}
           <div className="flex flex-col items-center">
             <h4 className="text-sm sm:text-base font-semibold mb-3 sm:mb-4 text-gray-700">Radar View</h4>
-            <div className="relative flex justify-center px-8 py-6">
-              <svg width="160" height="160" viewBox="0 0 200 200" className="mb-3 sm:mb-4 sm:w-[180px] sm:h-[180px]">
+            <div className="relative flex justify-center px-12 py-8">
+              <svg width="240" height="240" viewBox="0 0 200 200" className="mb-3 sm:mb-4 sm:w-[270px] sm:h-[270px]">
                 {/* Grid lines */}
                 {gridLevels.map((level, i) => {
                   const size = level * 80
@@ -1031,6 +1065,93 @@ export default function PersonalityPlusApp() {
                 ))}
               </div>
             </div>
+
+            {/* Save and Refresh Buttons - Apple Liquid Glass Style */}
+            <div className="mt-6 flex justify-center gap-4">
+              <button
+                onClick={handleSaveResults}
+                disabled={savedData !== null}
+                className={`w-40 h-12 rounded-2xl font-semibold text-white transition-all duration-300 backdrop-blur-md border border-white/20 shadow-lg ${
+                  savedData === null
+                    ? "bg-gradient-to-br from-green-400/80 to-green-600/80 hover:from-green-500/90 hover:to-green-700/90 hover:shadow-xl hover:scale-105 active:scale-95"
+                    : "bg-gradient-to-br from-gray-300/60 to-gray-500/60 cursor-not-allowed opacity-60"
+                }`}
+                style={{
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                }}
+              >
+                <span className="flex items-center justify-center gap-2">Save Results</span>
+              </button>
+              <button
+                onClick={handleRefresh}
+                className="w-40 h-12 rounded-2xl font-semibold text-white bg-gradient-to-br from-red-400/80 to-red-600/80 hover:from-red-500/90 hover:to-red-700/90 shadow-lg transition-all duration-300 backdrop-blur-md border border-white/20 hover:shadow-xl hover:scale-105 active:scale-95"
+                style={{
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                }}
+              >
+                <span className="flex items-center justify-center gap-2">Refresh</span>
+              </button>
+            </div>
+
+            {/* Saved Data Display */}
+            {savedData && (
+              <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg text-center">
+                <p className="text-green-800 font-semibold">
+                  ✅ Results saved for: <span className="font-bold">{savedData.name}</span>
+                </p>
+                <p className="text-green-600 text-sm">Saved on: {savedData.date}</p>
+              </div>
+            )}
+
+            {/* Save Results Popup - 90% Transparent */}
+            {showSavePopup && (
+              <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 backdrop-blur-sm">
+                <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 w-80 mx-4 shadow-2xl border border-white/20">
+                  <h3 className="text-xl font-bold text-center mb-4 text-gray-800">Save Assessment Results</h3>
+                  <p className="text-gray-600 text-center mb-6">Enter your name to save the assessment results</p>
+                  <input
+                    type="text"
+                    value={personName}
+                    onChange={(e) => setPersonName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="w-full p-4 border border-gray-200 rounded-2xl mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent bg-white/80 backdrop-blur-sm transition-all duration-200"
+                    autoFocus
+                  />
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        setShowSavePopup(false)
+                        setPersonName("")
+                      }}
+                      className="flex-1 h-12 bg-gradient-to-br from-gray-400/80 to-gray-600/80 text-white rounded-2xl hover:from-gray-500/90 hover:to-gray-700/90 transition-all duration-300 backdrop-blur-md border border-white/20 font-semibold hover:scale-105 active:scale-95"
+                      style={{
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={confirmSave}
+                      disabled={!personName.trim()}
+                      className={`flex-1 h-12 rounded-2xl transition-all duration-300 backdrop-blur-md border border-white/20 font-semibold hover:scale-105 active:scale-95 ${
+                        personName.trim()
+                          ? "bg-gradient-to-br from-green-400/80 to-green-600/80 text-white hover:from-green-500/90 hover:to-green-700/90"
+                          : "bg-gradient-to-br from-gray-300/60 to-gray-500/60 text-gray-400 cursor-not-allowed opacity-60"
+                      }`}
+                      style={{
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -1046,6 +1167,20 @@ export default function PersonalityPlusApp() {
               </div>
             </div>
             <RadarChart data={scores} title="Total Personality Profile" isTotal={true} />
+
+            {/* Print Report Button */}
+            <div className="flex justify-center mt-8 mb-6">
+              <button
+                onClick={() => window.print()}
+                className="w-48 h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg transition-all duration-300 backdrop-blur-md border border-white/20 hover:shadow-xl hover:scale-105 active:scale-95"
+                style={{
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                }}
+              >
+                <span className="flex items-center justify-center gap-2">Print Report</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
