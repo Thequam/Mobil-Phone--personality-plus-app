@@ -907,7 +907,7 @@ export default function PersonalityPlusApp() {
     return tempDiv
   }
 
-  // Function to capture Results Page with actual charts
+  // Function to capture Results Page exactly like the app's Results Page
   const captureResultsPage = async () => {
     const html2canvas = (await import("html2canvas")).default
 
@@ -925,80 +925,501 @@ export default function PersonalityPlusApp() {
     tempDiv.style.height = "auto"
     tempDiv.style.minHeight = "1123px"
     tempDiv.style.padding = "20px"
+    tempDiv.style.backgroundColor = "#0f172a"
+    tempDiv.style.background =
+      "linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e40af 75%, #3b82f6 100%)"
 
-    // Create the header with person name and date
-    const headerHTML = `
-    <div style="text-align: center; margin-bottom: 30px; font-family: system-ui, -apple-system, sans-serif;">
-      <h1 style="font-size: 28px; color: #1f2937; margin-bottom: 8px; font-weight: bold;">
-        Personality Profile of: ${personName}
-      </h1>
-      <p style="font-size: 16px; color: #6b7280; margin: 0;">
-        Generated on ${currentDate}
-      </p>
+    // Create the exact same layout as the app's Results Page
+    const resultsHTML = `
+    <div style="font-family: 'Arial', sans-serif; background: transparent; min-height: 1083px; padding: 20px; color: white;">
+      
+      <!-- Strengths Chart -->
+      <div style="margin-bottom: 40px; padding: 24px; border-radius: 16px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+        <h3 style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 32px; color: white; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+          Personality Profile Strengths
+        </h3>
+        
+        <!-- Radar and Bar Chart Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;">
+          
+          <!-- Radar Chart -->
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 9999px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 12px;">
+              <h4 style="font-size: 14px; font-weight: 600; color: white; margin: 0;">Radar View</h4>
+            </div>
+            <div style="position: relative; display: flex; justify-content: center; padding: 32px 48px;">
+              <svg width="270" height="270" viewBox="0 0 200 200" style="filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));">
+                <!-- Grid lines -->
+                <rect x="84" y="84" width="32" height="32" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="68" y="68" width="64" height="64" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="52" y="52" width="96" height="96" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="36" y="36" width="128" height="128" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="20" y="20" width="160" height="160" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                
+                <!-- Axis lines -->
+                <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="1"/>
+                <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="1"/>
+                
+                <!-- Data area -->
+                <path d="M 100 ${20 + (20 - strengthScores.melancholy) * 4} L ${100 + strengthScores.choleric * 4} 100 L 100 ${180 - (20 - strengthScores.sanguine) * 4} L ${100 - strengthScores.phlegmatic * 4} 100 Z" 
+                      fill="#3B82F640" stroke="#3B82F6" strokeWidth="3" style="filter: drop-shadow(0 0 10px #3B82F680);"/>
+                
+                <!-- Data points -->
+                <circle cx="100" cy="${20 + (20 - strengthScores.melancholy) * 4}" r="5" fill="#22C55E" stroke="white" strokeWidth="2"/>
+                <circle cx="${100 + strengthScores.choleric * 4}" cy="100" r="5" fill="#EF4444" stroke="white" strokeWidth="2"/>
+                <circle cx="100" cy="${180 - (20 - strengthScores.sanguine) * 4}" r="5" fill="#3B82F6" stroke="white" strokeWidth="2"/>
+                <circle cx="${100 - strengthScores.phlegmatic * 4}" cy="100" r="5" fill="#A855F7" stroke="white" strokeWidth="2"/>
+              </svg>
+              
+              <!-- Labels -->
+              <div style="position: absolute; top: 15%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Perfect</div>
+                  <div>Melancholy</div>
+                  <span style="font-size: 12px; font-weight: bold;">${strengthScores.melancholy}</span>
+                </div>
+              </div>
+              <div style="position: absolute; right: 15%; top: 50%; transform: translate(50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Powerful</div>
+                  <div>Choleric</div>
+                  <span style="font-size: 12px; font-weight: bold;">${strengthScores.choleric}</span>
+                </div>
+              </div>
+              <div style="position: absolute; bottom: 15%; left: 50%; transform: translate(-50%, 50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Popular</div>
+                  <div>Sanguine</div>
+                  <span style="font-size: 12px; font-weight: bold;">${strengthScores.sanguine}</span>
+                </div>
+              </div>
+              <div style="position: absolute; left: 15%; top: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Peaceful</div>
+                  <div>Phlegmatic</div>
+                  <span style="font-size: 12px; font-weight: bold;">${strengthScores.phlegmatic}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bar Chart -->
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 9999px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 12px;">
+              <h4 style="font-size: 14px; font-weight: 600; color: white; margin: 0;">Bar Chart View</h4>
+            </div>
+            <div style="width: 100%; max-width: 320px; display: flex; justify-content: center;">
+              <svg width="100%" height="300" viewBox="0 0 280 250">
+                <!-- Grid lines -->
+                <line x1="35" y1="220" x2="260" y2="220" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="184" x2="260" y2="184" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="148" x2="260" y2="148" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="112" x2="260" y2="112" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="76" x2="260" y2="76" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="40" x2="260" y2="40" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                
+                <!-- Y-axis labels -->
+                <text x="30" y="225" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">0</text>
+                <text x="30" y="189" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">5</text>
+                <text x="30" y="153" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">10</text>
+                <text x="30" y="117" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">15</text>
+                <text x="30" y="81" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">20</text>
+                
+                <!-- Bars -->
+                <rect x="50" y="${220 - strengthScores.sanguine * 9}" width="35" height="${strengthScores.sanguine * 9}" fill="#3B82F6" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                <rect x="100" y="${220 - strengthScores.choleric * 9}" width="35" height="${strengthScores.choleric * 9}" fill="#EF4444" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                <rect x="150" y="${220 - strengthScores.melancholy * 9}" width="35" height="${strengthScores.melancholy * 9}" fill="#22C55E" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                <rect x="200" y="${220 - strengthScores.phlegmatic * 9}" width="35" height="${strengthScores.phlegmatic * 9}" fill="#A855F7" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                
+                <!-- Score labels -->
+                <text x="67.5" y="${220 - strengthScores.sanguine * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${strengthScores.sanguine}</text>
+                <text x="117.5" y="${220 - strengthScores.choleric * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${strengthScores.choleric}</text>
+                <text x="167.5" y="${220 - strengthScores.melancholy * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${strengthScores.melancholy}</text>
+                <text x="217.5" y="${220 - strengthScores.phlegmatic * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${strengthScores.phlegmatic}</text>
+                
+                <!-- X-axis labels -->
+                <text x="67.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 67.5, 240)">Sanguine</text>
+                <text x="117.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 117.5, 240)">Choleric</text>
+                <text x="167.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 167.5, 240)">Melancholy</text>
+                <text x="217.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 217.5, 240)">Phlegmatic</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Legend -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px;">
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #3B82F6; box-shadow: 0 0 8px #3B82F660;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Popular Sanguine</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${strengthScores.sanguine}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #EF4444; box-shadow: 0 0 8px #EF444460;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Powerful Choleric</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${strengthScores.choleric}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 8px #22C55E60;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Perfect Melancholy</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${strengthScores.melancholy}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #A855F7; box-shadow: 0 0 8px #A855F760;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Peaceful Phlegmatic</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${strengthScores.phlegmatic}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weaknesses Chart -->
+      <div style="margin-bottom: 40px; padding: 24px; border-radius: 16px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+        <h3 style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 32px; color: white; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+          Personality Profile Weaknesses
+        </h3>
+        
+        <!-- Radar and Bar Chart Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;">
+          
+          <!-- Radar Chart -->
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 9999px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 12px;">
+              <h4 style="font-size: 14px; font-weight: 600; color: white; margin: 0;">Radar View</h4>
+            </div>
+            <div style="position: relative; display: flex; justify-content: center; padding: 32px 48px;">
+              <svg width="270" height="270" viewBox="0 0 200 200" style="filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.8));">
+                <!-- Grid lines -->
+                <rect x="84" y="84" width="32" height="32" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="68" y="68" width="64" height="64" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="52" y="52" width="96" height="96" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="36" y="36" width="128" height="128" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="20" y="20" width="160" height="160" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                
+                <!-- Axis lines -->
+                <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="1"/>
+                <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="1"/>
+                
+                <!-- Data area -->
+                <path d="M 100 ${20 + (20 - weaknessScores.melancholy) * 4} L ${100 + weaknessScores.choleric * 4} 100 L 100 ${180 - (20 - weaknessScores.sanguine) * 4} L ${100 - weaknessScores.phlegmatic * 4} 100 Z" 
+                      fill="#EF444440" stroke="#EF4444" strokeWidth="3" style="filter: drop-shadow(0 0 10px #EF444480);"/>
+                
+                <!-- Data points -->
+                <circle cx="100" cy="${20 + (20 - weaknessScores.melancholy) * 4}" r="5" fill="#22C55E" stroke="white" strokeWidth="2"/>
+                <circle cx="${100 + weaknessScores.choleric * 4}" cy="100" r="5" fill="#EF4444" stroke="white" strokeWidth="2"/>
+                <circle cx="100" cy="${180 - (20 - weaknessScores.sanguine) * 4}" r="5" fill="#3B82F6" stroke="white" strokeWidth="2"/>
+                <circle cx="${100 - weaknessScores.phlegmatic * 4}" cy="100" r="5" fill="#A855F7" stroke="white" strokeWidth="2"/>
+              </svg>
+              
+              <!-- Labels -->
+              <div style="position: absolute; top: 15%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Perfect</div>
+                  <div>Melancholy</div>
+                  <span style="font-size: 12px; font-weight: bold;">${weaknessScores.melancholy}</span>
+                </div>
+              </div>
+              <div style="position: absolute; right: 15%; top: 50%; transform: translate(50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Powerful</div>
+                  <div>Choleric</div>
+                  <span style="font-size: 12px; font-weight: bold;">${weaknessScores.choleric}</span>
+                </div>
+              </div>
+              <div style="position: absolute; bottom: 15%; left: 50%; transform: translate(-50%, 50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Popular</div>
+                  <div>Sanguine</div>
+                  <span style="font-size: 12px; font-weight: bold;">${weaknessScores.sanguine}</span>
+                </div>
+              </div>
+              <div style="position: absolute; left: 15%; top: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Peaceful</div>
+                  <div>Phlegmatic</div>
+                  <span style="font-size: 12px; font-weight: bold;">${weaknessScores.phlegmatic}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bar Chart -->
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 9999px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 12px;">
+              <h4 style="font-size: 14px; font-weight: 600; color: white; margin: 0;">Bar Chart View</h4>
+            </div>
+            <div style="width: 100%; max-width: 320px; display: flex; justify-content: center;">
+              <svg width="100%" height="300" viewBox="0 0 280 250">
+                <!-- Grid lines -->
+                <line x1="35" y1="220" x2="260" y2="220" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="184" x2="260" y2="184" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="148" x2="260" y2="148" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="112" x2="260" y2="112" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="76" x2="260" y2="76" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="40" x2="260" y2="40" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                
+                <!-- Y-axis labels -->
+                <text x="30" y="225" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">0</text>
+                <text x="30" y="189" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">5</text>
+                <text x="30" y="153" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">10</text>
+                <text x="30" y="117" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">15</text>
+                <text x="30" y="81" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">20</text>
+                
+                <!-- Bars -->
+                <rect x="50" y="${220 - weaknessScores.sanguine * 9}" width="35" height="${weaknessScores.sanguine * 9}" fill="#3B82F6" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                <rect x="100" y="${220 - weaknessScores.choleric * 9}" width="35" height="${weaknessScores.choleric * 9}" fill="#EF4444" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                <rect x="150" y="${220 - weaknessScores.melancholy * 9}" width="35" height="${weaknessScores.melancholy * 9}" fill="#22C55E" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                <rect x="200" y="${220 - weaknessScores.phlegmatic * 9}" width="35" height="${weaknessScores.phlegmatic * 9}" fill="#A855F7" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                
+                <!-- Score labels -->
+                <text x="67.5" y="${220 - weaknessScores.sanguine * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${weaknessScores.sanguine}</text>
+                <text x="117.5" y="${220 - weaknessScores.choleric * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${weaknessScores.choleric}</text>
+                <text x="167.5" y="${220 - weaknessScores.melancholy * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${weaknessScores.melancholy}</text>
+                <text x="217.5" y="${220 - weaknessScores.phlegmatic * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white">${weaknessScores.phlegmatic}</text>
+                
+                <!-- X-axis labels -->
+                <text x="67.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 67.5, 240)">Sanguine</text>
+                <text x="117.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 117.5, 240)">Choleric</text>
+                <text x="167.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 167.5, 240)">Melancholy</text>
+                <text x="217.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 217.5, 240)">Phlegmatic</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Legend -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px;">
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #3B82F6; box-shadow: 0 0 8px #3B82F660;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Popular Sanguine</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${weaknessScores.sanguine}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #EF4444; box-shadow: 0 0 8px #EF444460;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Powerful Choleric</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${weaknessScores.choleric}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 8px #22C55E60;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Perfect Melancholy</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${weaknessScores.melancholy}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #A855F7; box-shadow: 0 0 8px #A855F760;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Peaceful Phlegmatic</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${weaknessScores.phlegmatic}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Profile Header -->
+      <div style="text-center; margin-bottom: 32px; padding: 8px;">
+        <div style="display: inline-block; background: linear-gradient(to right, rgba(147, 51, 234, 0.6), rgba(59, 130, 246, 0.6)); color: white; padding: 12px 32px; border-radius: 9999px; box-shadow: 0 0 60px rgba(147, 51, 234, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); position: relative; overflow: hidden;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(147, 51, 234, 0.3), rgba(59, 130, 246, 0.3)); opacity: 0.5; filter: blur(16px);"></div>
+          <span style="font-size: 18px; font-weight: bold; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); position: relative; z-index: 10;">
+            🎯 YOUR COMPLETE PERSONALITY PROFILE
+          </span>
+        </div>
+      </div>
+
+      <!-- Total Chart -->
+      <div style="margin-bottom: 40px; padding: 24px; border-radius: 16px; background: linear-gradient(135deg, rgba(147, 51, 234, 0.4), rgba(59, 130, 246, 0.4), rgba(99, 102, 241, 0.4)); backdrop-filter: blur(20px); border: 4px solid rgba(147, 51, 234, 0.6); box-shadow: 0 0 80px rgba(147, 51, 234, 0.5), 0 0 120px rgba(147, 51, 234, 0.3), 0 25px 50px rgba(0, 0, 0, 0.2); transform: scale(1.05); position: relative; overflow: hidden;">
+        <!-- Special pulsing border -->
+        <div style="position: absolute; inset: 0; border-radius: 16px; border: 4px solid rgba(147, 51, 234, 0.6); box-shadow: 0 0 40px rgba(147, 51, 234, 0.6);"></div>
+        
+        <h3 style="font-size: 32px; font-weight: bold; text-align: center; margin-bottom: 32px; color: white; text-shadow: 0 0 30px rgba(147, 51, 234, 1), 0 0 60px rgba(147, 51, 234, 0.8), 0 4px 8px rgba(0, 0, 0, 0.5); filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)); position: relative; z-index: 10;">
+          <div style="display: inline-block; background: linear-gradient(to right, rgba(147, 51, 234, 0.3), rgba(59, 130, 246, 0.3)); border-radius: 9999px; padding: 24px; border: 2px solid rgba(147, 51, 234, 0.5); box-shadow: 0 0 40px rgba(0, 0, 0, 0.2); margin-bottom: 12px;">
+            <span style="background: linear-gradient(to right, #e9d5ff, #dbeafe); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800;">
+              Total Personality Profile
+            </span>
+          </div>
+        </h3>
+        
+        <!-- Radar and Bar Chart Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; position: relative; z-index: 10;">
+          
+          <!-- Radar Chart -->
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 9999px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 12px;">
+              <h4 style="font-size: 16px; font-weight: 600; color: white; margin: 0;">Radar View</h4>
+            </div>
+            <div style="position: relative; display: flex; justify-content: center; padding: 32px 48px; transform: scale(1.1);">
+              <svg width="270" height="270" viewBox="0 0 200 200" style="filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.8)) drop-shadow(0 0 40px rgba(147, 51, 234, 0.4));">
+                <!-- Grid lines -->
+                <rect x="84" y="84" width="32" height="32" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="68" y="68" width="64" height="64" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="52" y="52" width="96" height="96" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="36" y="36" width="128" height="128" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <rect x="20" y="20" width="160" height="160" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                
+                <!-- Axis lines -->
+                <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="1"/>
+                <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="1"/>
+                
+                <!-- Data area -->
+                <path d="M 100 ${20 + (20 - scores.melancholy) * 4} L ${100 + scores.choleric * 4} 100 L 100 ${180 - (20 - scores.sanguine) * 4} L ${100 - scores.phlegmatic * 4} 100 Z" 
+                      fill="rgba(147, 51, 234, 0.8)" stroke="#9333ea" strokeWidth="6" style="filter: drop-shadow(0 0 20px #9333eaFF) drop-shadow(0 0 40px #9333ea80);"/>
+                
+                <!-- Data points -->
+                <circle cx="100" cy="${20 + (20 - scores.melancholy) * 4}" r="7" fill="#22C55E" stroke="white" strokeWidth="3" style="filter: drop-shadow(0 0 15px #22C55EFF) drop-shadow(0 0 30px #22C55E80);"/>
+                <circle cx="${100 + scores.choleric * 4}" cy="100" r="7" fill="#EF4444" stroke="white" strokeWidth="3" style="filter: drop-shadow(0 0 15px #EF4444FF) drop-shadow(0 0 30px #EF444480);"/>
+                <circle cx="100" cy="${180 - (20 - scores.sanguine) * 4}" r="7" fill="#3B82F6" stroke="white" strokeWidth="3" style="filter: drop-shadow(0 0 15px #3B82F6FF) drop-shadow(0 0 30px #3B82F680);"/>
+                <circle cx="${100 - scores.phlegmatic * 4}" cy="100" r="7" fill="#A855F7" stroke="white" strokeWidth="3" style="filter: drop-shadow(0 0 15px #A855F7FF) drop-shadow(0 0 30px #A855F780);"/>
+              </svg>
+              
+              <!-- Labels -->
+              <div style="position: absolute; top: 15%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Perfect</div>
+                  <div>Melancholy</div>
+                  <span style="font-size: 12px; font-weight: bold;">${scores.melancholy}</span>
+                </div>
+              </div>
+              <div style="position: absolute; right: 15%; top: 50%; transform: translate(50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Powerful</div>
+                  <div>Choleric</div>
+                  <span style="font-size: 12px; font-weight: bold;">${scores.choleric}</span>
+                </div>
+              </div>
+              <div style="position: absolute; bottom: 15%; left: 50%; transform: translate(-50%, 50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Popular</div>
+                  <div>Sanguine</div>
+                  <span style="font-size: 12px; font-weight: bold;">${scores.sanguine}</span>
+                </div>
+              </div>
+              <div style="position: absolute; left: 15%; top: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 4px 8px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <div style="font-size: 9px; font-weight: 600; text-align: center; color: white;">
+                  <div>Peaceful</div>
+                  <div>Phlegmatic</div>
+                  <span style="font-size: 12px; font-weight: bold;">${scores.phlegmatic}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bar Chart -->
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 9999px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 12px;">
+              <h4 style="font-size: 16px; font-weight: 600; color: white; margin: 0;">Bar Chart View</h4>
+            </div>
+            <div style="width: 100%; max-width: 320px; display: flex; justify-content: center;">
+              <svg width="100%" height="300" viewBox="0 0 280 250">
+                <!-- Grid lines -->
+                <line x1="35" y1="220" x2="260" y2="220" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="184" x2="260" y2="184" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="148" x2="260" y2="148" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="112" x2="260" y2="112" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="76" x2="260" y2="76" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                <line x1="35" y1="40" x2="260" y2="40" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1"/>
+                
+                <!-- Y-axis labels -->
+                <text x="30" y="225" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">0</text>
+                <text x="30" y="189" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">5</text>
+                <text x="30" y="153" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">10</text>
+                <text x="30" y="117" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">15</text>
+                <text x="30" y="81" textAnchor="end" fontSize="10" fill="rgba(255, 255, 255, 0.8)">20</text>
+                
+                <!-- Bars -->
+                <rect x="50" y="${220 - scores.sanguine * 9}" width="35" height="${scores.sanguine * 9}" fill="#3B82F6" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2" style="filter: drop-shadow(0 0 15px #3B82F660) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));"/>
+                <rect x="100" y="${220 - scores.choleric * 9}" width="35" height="${scores.choleric * 9}" fill="#EF4444" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2" style="filter: drop-shadow(0 0 15px #EF444460) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));"/>
+                <rect x="150" y="${220 - scores.melancholy * 9}" width="35" height="${scores.melancholy * 9}" fill="#22C55E" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2" style="filter: drop-shadow(0 0 15px #22C55E60) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));"/>
+                <rect x="200" y="${220 - scores.phlegmatic * 9}" width="35" height="${scores.phlegmatic * 9}" fill="#A855F7" rx="4" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2" style="filter: drop-shadow(0 0 15px #A855F760) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));"/>
+                
+                <!-- Score labels -->
+                <text x="67.5" y="${220 - scores.sanguine * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white" style="filter: drop-shadow(0 0 8px #3B82F680) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));">${scores.sanguine}</text>
+                <text x="117.5" y="${220 - scores.choleric * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white" style="filter: drop-shadow(0 0 8px #EF444480) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));">${scores.choleric}</text>
+                <text x="167.5" y="${220 - scores.melancholy * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white" style="filter: drop-shadow(0 0 8px #22C55E80) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));">${scores.melancholy}</text>
+                <text x="217.5" y="${220 - scores.phlegmatic * 9 - 8}" textAnchor="middle" fontSize="14" fontWeight="bold" fill="white" style="filter: drop-shadow(0 0 8px #A855F780) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));">${scores.phlegmatic}</text>
+                
+                <!-- X-axis labels -->
+                <text x="67.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 67.5, 240)">Sanguine</text>
+                <text x="117.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 117.5, 240)">Choleric</text>
+                <text x="167.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 167.5, 240)">Melancholy</text>
+                <text x="217.5" y="240" textAnchor="middle" fontSize="8" fill="rgba(255, 255, 255, 0.9)" transform="rotate(-45, 217.5, 240)">Phlegmatic</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Legend -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; position: relative; z-index: 10;">
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #3B82F6; box-shadow: 0 0 8px #3B82F660;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Popular Sanguine</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${scores.sanguine}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #EF4444; box-shadow: 0 0 8px #EF444460;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Powerful Choleric</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${scores.choleric}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 8px #22C55E60;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Perfect Melancholy</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${scores.melancholy}</div>
+              </div>
+            </div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #A855F7; box-shadow: 0 0 8px #A855F760;"></div>
+              <div style="display: flex; flex-direction: column;">
+                <div style="font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.9);">Peaceful Phlegmatic</div>
+                <div style="font-size: 14px; font-weight: bold; text-align: center; color: white;">${scores.phlegmatic}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   `
 
-    tempDiv.innerHTML = headerHTML
+    tempDiv.innerHTML = resultsHTML
 
-    // Create containers for each chart section
-    const chartsContainer = document.createElement("div")
-    chartsContainer.style.cssText = `
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    font-family: system-ui, -apple-system, sans-serif;
-  `
-
-    // Find the actual chart elements from the DOM
-    const strengthsChart = document.querySelector('[data-chart="strengths"]')
-    const weaknessesChart = document.querySelector('[data-chart="weaknesses"]')
-    const totalChart = document.querySelector('[data-chart="total"]')
-
-    if (strengthsChart) {
-      const strengthsClone = strengthsChart.cloneNode(true) as HTMLElement
-      strengthsClone.style.cssText = `
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 24px;
-      margin-bottom: 20px;
-      width: 100%;
-      box-sizing: border-box;
-    `
-      chartsContainer.appendChild(strengthsClone)
-    }
-
-    if (weaknessesChart) {
-      const weaknessesClone = weaknessesChart.cloneNode(true) as HTMLElement
-      weaknessesClone.style.cssText = `
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 24px;
-      margin-bottom: 20px;
-      width: 100%;
-      box-sizing: border-box;
-    `
-      chartsContainer.appendChild(weaknessesClone)
-    }
-
-    if (totalChart) {
-      const totalClone = totalChart.cloneNode(true) as HTMLElement
-      totalClone.style.cssText = `
-      background: linear-gradient(135deg, #f3e8ff 0%, #dbeafe 50%, #e0e7ff 100%);
-      border: 2px solid #a855f7;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 24px;
-      width: 100%;
-      box-sizing: border-box;
-    `
-      chartsContainer.appendChild(totalClone)
-    }
-
-    tempDiv.appendChild(chartsContainer)
-
-    // Wait a moment for any dynamic content to render
+    // Wait for content to render
     await new Promise((resolve) => setTimeout(resolve, 500))
 
     const canvas = await html2canvas(tempDiv, {
@@ -1007,106 +1428,103 @@ export default function PersonalityPlusApp() {
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: "#f9fafb",
+      backgroundColor: "#0f172a",
       logging: false,
-      onclone: (clonedDoc) => {
-        // Ensure all SVG elements are properly rendered
-        const svgs = clonedDoc.querySelectorAll("svg")
-        svgs.forEach((svg) => {
-          svg.style.display = "block"
-        })
-      },
     })
 
     document.body.removeChild(tempDiv)
     return canvas.toDataURL("image/png")
   }
 
-  // Function to capture Assessment Page
+  // Function to capture Assessment Page with clean styling
   const captureAssessmentPage = async () => {
     const html2canvas = (await import("html2canvas")).default
 
     const tempDiv = createCaptureElement(null, "capture-assessment")
+    tempDiv.style.backgroundColor = "#ffffff"
+    tempDiv.style.padding = "20px"
 
-    // Generate assessment table HTML
+    // Generate clean assessment table HTML
     let assessmentHTML = `
-      <div style="font-family: system-ui, -apple-system, sans-serif; font-size: 10px;">
-        <h1 style="font-size: 20px; text-align: center; margin-bottom: 20px; color: #333;">Personality Scoring Sheet</h1>
-        <table style="width: 100%; border-collapse: collapse; font-size: 9px;">
-          <thead>
-            <tr>
-              <th style="border: 1px solid #000; padding: 5px; background-color: #f0f0f0;"></th>
-              <th style="border: 1px solid #000; padding: 5px; background-color: #3182ce; color: white; text-align: center;">Popular Sanguine</th>
-              <th style="border: 1px solid #000; padding: 5px; background-color: #e53e3e; color: white; text-align: center;">Powerful Choleric</th>
-              <th style="border: 1px solid #000; padding: 5px; background-color: #38a169; color: white; text-align: center;">Perfect Melancholy</th>
-              <th style="border: 1px solid #000; padding: 5px; background-color: #805ad5; color: white; text-align: center;">Peaceful Phlegmatic</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="5" style="border: 1px solid #000; padding: 5px; background-color: #bee3f8; font-weight: bold; text-align: center;">Strengths</td>
-            </tr>
-    `
+    <div style="font-family: 'Arial', sans-serif; background: #ffffff; min-height: 1083px;">
+      <h1 style="font-size: 24px; text-align: center; margin-bottom: 25px; color: #1f2937; border-bottom: 3px solid #2563eb; padding-bottom: 15px;">
+        Personality Scoring Sheet
+      </h1>
+      <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; background: #ffffff;">
+        <thead>
+          <tr>
+            <th style="border: 2px solid #000000; padding: 8px; background: #f8fafc; font-weight: bold; text-align: center; width: 40px;"></th>
+            <th style="border: 2px solid #000000; padding: 8px; background: #3b82f6; color: white; text-align: center; font-weight: bold;">Popular Sanguine<br><span style="font-size: 8px;">Extrovert • Talker • Optimist</span></th>
+            <th style="border: 2px solid #000000; padding: 8px; background: #ef4444; color: white; text-align: center; font-weight: bold;">Powerful Choleric<br><span style="font-size: 8px;">Extrovert • Doer • Optimist</span></th>
+            <th style="border: 2px solid #000000; padding: 8px; background: #22c55e; color: white; text-align: center; font-weight: bold;">Perfect Melancholy<br><span style="font-size: 8px;">Introvert • Thinker • Pessimist</span></th>
+            <th style="border: 2px solid #000000; padding: 8px; background: #a855f7; color: white; text-align: center; font-weight: bold;">Peaceful Phlegmatic<br><span style="font-size: 8px;">Introvert • Watcher • Pessimist</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="5" style="border: 2px solid #000000; padding: 8px; background: #dbeafe; font-weight: bold; text-align: center; font-size: 12px;">STRENGTHS</td>
+          </tr>
+  `
 
     // Add strengths rows
     personalityData.slice(0, 20).forEach((row, index) => {
       assessmentHTML += `
-        <tr>
-          <td style="border: 1px solid #000; padding: 3px; text-align: center; font-weight: bold; width: 30px;">${index + 1}</td>
-          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "sanguine" ? "✓ " : ""}${row.sanguine}</td>
-          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "choleric" ? "✓ " : ""}${row.choleric}</td>
-          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "melancholy" ? "✓ " : ""}${row.melancholy}</td>
-          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "phlegmatic" ? "✓ " : ""}${row.phlegmatic}</td>
-        </tr>
-      `
+      <tr>
+        <td style="border: 2px solid #000000; padding: 6px; text-align: center; font-weight: bold; background: #f1f5f9;">${index + 1}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index] === "sanguine" ? "#dbeafe" : "#ffffff"};">${selections[index] === "sanguine" ? "✓ " : ""}${row.sanguine}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index] === "choleric" ? "#fecaca" : "#ffffff"};">${selections[index] === "choleric" ? "✓ " : ""}${row.choleric}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index] === "melancholy" ? "#dcfce7" : "#ffffff"};">${selections[index] === "melancholy" ? "✓ " : ""}${row.melancholy}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index] === "phlegmatic" ? "#f3e8ff" : "#ffffff"};">${selections[index] === "phlegmatic" ? "✓ " : ""}${row.phlegmatic}</td>
+      </tr>
+    `
     })
 
     assessmentHTML += `
-            <tr>
-              <td colspan="5" style="border: 1px solid #000; padding: 5px; background-color: #faf089; font-weight: bold; text-align: center;">Weaknesses</td>
-            </tr>
-    `
+          <tr>
+            <td colspan="5" style="border: 2px solid #000000; padding: 8px; background: #fef3c7; font-weight: bold; text-align: center; font-size: 12px;">WEAKNESSES</td>
+          </tr>
+  `
 
     // Add weaknesses rows
     personalityData.slice(20, 40).forEach((row, index) => {
       assessmentHTML += `
-        <tr>
-          <td style="border: 1px solid #000; padding: 3px; text-align: center; font-weight: bold; width: 30px;">${index + 21}</td>
-          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "sanguine" ? "✓ " : ""}${row.sanguine}</td>
-          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "choleric" ? "✓ " : ""}${row.choleric}</td>
-          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "melancholy" ? "✓ " : ""}${row.melancholy}</td>
-          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "phlegmatic" ? "✓ " : ""}${row.phlegmatic}</td>
-        </tr>
-      `
+      <tr>
+        <td style="border: 2px solid #000000; padding: 6px; text-align: center; font-weight: bold; background: #f1f5f9;">${index + 21}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index + 20] === "sanguine" ? "#dbeafe" : "#fffbeb"};">${selections[index + 20] === "sanguine" ? "✓ " : ""}${row.sanguine}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index + 20] === "choleric" ? "#fecaca" : "#fffbeb"};">${selections[index + 20] === "choleric" ? "✓ " : ""}${row.choleric}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index + 20] === "melancholy" ? "#dcfce7" : "#fffbeb"};">${selections[index + 20] === "melancholy" ? "✓ " : ""}${row.melancholy}</td>
+        <td style="border: 2px solid #000000; padding: 6px; background: ${selections[index + 20] === "phlegmatic" ? "#f3e8ff" : "#fffbeb"};">${selections[index + 20] === "phlegmatic" ? "✓ " : ""}${row.phlegmatic}</td>
+      </tr>
+    `
     })
 
     // Add scoring rows
     assessmentHTML += `
-            <tr style="background-color: #fef3c7;">
-              <td style="border: 1px solid #000; padding: 5px; background-color: #fde68a; font-weight: bold; text-align: center;">Score Strengths</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.sanguine}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.choleric}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.melancholy}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.phlegmatic}</td>
-            </tr>
-            <tr style="background-color: #fef3c7;">
-              <td style="border: 1px solid #000; padding: 5px; background-color: #fde68a; font-weight: bold; text-align: center;">Score Weakness</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.sanguine}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.choleric}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.melancholy}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.phlegmatic}</td>
-            </tr>
-            <tr style="background-color: #fde68a;">
-              <td style="border: 1px solid #000; padding: 5px; background-color: #fbbf24; font-weight: bold; text-align: center;">Score Total</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.sanguine}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.choleric}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.melancholy}</td>
-              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.phlegmatic}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `
+          <tr style="background: #fef3c7;">
+            <td style="border: 2px solid #000000; padding: 8px; background: #fde68a; font-weight: bold; text-align: center; font-size: 10px;">Score<br>Strengths</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #1e40af; font-size: 16px; background: #dbeafe;">${strengthScores.sanguine}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #dc2626; font-size: 16px; background: #fecaca;">${strengthScores.choleric}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #16a34a; font-size: 16px; background: #dcfce7;">${strengthScores.melancholy}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #9333ea; font-size: 16px; background: #f3e8ff;">${strengthScores.phlegmatic}</td>
+          </tr>
+          <tr style="background: #fef3c7;">
+            <td style="border: 2px solid #000000; padding: 8px; background: #fde68a; font-weight: bold; text-align: center; font-size: 10px;">Score<br>Weakness</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #1e40af; font-size: 16px; background: #dbeafe;">${weaknessScores.sanguine}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #dc2626; font-size: 16px; background: #fecaca;">${weaknessScores.choleric}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #16a34a; font-size: 16px; background: #dcfce7;">${weaknessScores.melancholy}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #9333ea; font-size: 16px; background: #f3e8ff;">${weaknessScores.phlegmatic}</td>
+          </tr>
+          <tr style="background: #fde68a;">
+            <td style="border: 2px solid #000000; padding: 8px; background: #fbbf24; font-weight: bold; text-align: center; font-size: 10px;">Score<br>Total</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #1e40af; font-size: 18px; background: #dbeafe;">${scores.sanguine}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #dc2626; font-size: 18px; background: #fecaca;">${scores.choleric}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #16a34a; font-size: 18px; background: #dcfce7;">${scores.melancholy}</td>
+            <td style="border: 2px solid #000000; padding: 8px; text-align: center; font-weight: bold; color: #9333ea; font-size: 18px; background: #f3e8ff;">${scores.phlegmatic}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `
 
     tempDiv.innerHTML = assessmentHTML
 
@@ -1123,58 +1541,74 @@ export default function PersonalityPlusApp() {
     return canvas.toDataURL("image/png")
   }
 
-  // Function to capture Info Page
+  // Function to capture Info Page with clean styling
   const captureInfoPage = async () => {
     const html2canvas = (await import("html2canvas")).default
 
     const tempDiv = createCaptureElement(null, "capture-info")
+    tempDiv.style.backgroundColor = "#ffffff"
+    tempDiv.style.padding = "20px"
 
     let infoHTML = `
-      <div style="font-family: system-ui, -apple-system, sans-serif;">
-        <h1 style="font-size: 20px; text-align: center; margin-bottom: 20px; color: #333;">Personality Types Information</h1>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-    `
+    <div style="font-family: 'Arial', sans-serif; background: #ffffff; min-height: 1083px;">
+      <h1 style="font-size: 24px; text-align: center; margin-bottom: 25px; color: #1f2937; border-bottom: 3px solid #2563eb; padding-bottom: 15px;">
+        Personality Types Information Guide
+      </h1>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: calc(100% - 80px);">
+  `
 
     personalityDetails.forEach((detail) => {
       infoHTML += `
-        <div style="border: 2px solid #000; border-radius: 8px; overflow: hidden; break-inside: avoid; height: fit-content;">
-          <div style="padding: 10px; color: white; text-align: center; font-weight: bold; font-size: 14px; background-color: ${detail.color};">
-            <div>${detail.title}</div>
-            <div style="font-size: 10px; opacity: 0.9;">${detail.subtitle}</div>
-          </div>
-          <div style="padding: 10px; font-size: 8px; line-height: 1.3;">
-            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">STRENGTHS</div>
-            ${detail.sections.strengths
-              .slice(0, 6)
-              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
-              .join("")}
-            
-            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">EMOTIONS</div>
-            ${detail.sections.emotions
-              .slice(0, 3)
-              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
-              .join("")}
-            
-            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">AT WORK</div>
-            ${detail.sections.atWork
-              .slice(0, 3)
-              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
-              .join("")}
-            
-            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">AS FRIEND</div>
-            ${detail.sections.asFriend
-              .slice(0, 3)
-              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
-              .join("")}
-          </div>
+      <div style="border: 3px solid ${detail.color}; border-radius: 12px; overflow: hidden; break-inside: avoid; height: fit-content; background: #ffffff;">
+        <div style="padding: 15px; color: white; text-align: center; font-weight: bold; font-size: 16px; background: ${detail.color};">
+          <div style="margin-bottom: 5px;">${detail.title}</div>
+          <div style="font-size: 12px; opacity: 0.9;">${detail.subtitle}</div>
         </div>
-      `
-    })
-
-    infoHTML += `
+        <div style="padding: 15px; font-size: 9px; line-height: 1.4;">
+          <div style="font-weight: bold; font-size: 11px; margin: 0 0 8px 0; color: #1f2937; text-transform: uppercase; border-bottom: 2px solid ${detail.color}; padding-bottom: 3px;">STRENGTHS</div>
+          ${detail.sections.strengths
+            .slice(0, 8)
+            .map(
+              (item) =>
+                `<div style="margin-bottom: 3px; padding-left: 10px; position: relative;"><span style="position: absolute; left: 0; color: ${detail.color}; font-weight: bold;">•</span>${item}</div>`,
+            )
+            .join("")}
+          
+          <div style="font-weight: bold; font-size: 11px; margin: 12px 0 8px 0; color: #1f2937; text-transform: uppercase; border-bottom: 2px solid ${detail.color}; padding-bottom: 3px;">EMOTIONS</div>
+          ${detail.sections.emotions
+            .slice(0, 4)
+            .map(
+              (item) =>
+                `<div style="margin-bottom: 3px; padding-left: 10px; position: relative;"><span style="position: absolute; left: 0; color: ${detail.color}; font-weight: bold;">•</span>${item}</div>`,
+            )
+            .join("")}
+          
+          <div style="font-weight: bold; font-size: 11px; margin: 12px 0 8px 0; color: #1f2937; text-transform: uppercase; border-bottom: 2px solid ${detail.color}; padding-bottom: 3px;">AT WORK</div>
+          ${detail.sections.atWork
+            .slice(0, 4)
+            .map(
+              (item) =>
+                `<div style="margin-bottom: 3px; padding-left: 10px; position: relative;"><span style="position: absolute; left: 0; color: ${detail.color}; font-weight: bold;">•</span>${item}</div>`,
+            )
+            .join("")}
+          
+          <div style="font-weight: bold; font-size: 11px; margin: 12px 0 8px 0; color: #1f2937; text-transform: uppercase; border-bottom: 2px solid ${detail.color}; padding-bottom: 3px;">AS FRIEND</div>
+          ${detail.sections.asFriend
+            .slice(0, 4)
+            .map(
+              (item) =>
+                `<div style="margin-bottom: 3px; padding-left: 10px; position: relative;"><span style="position: absolute; left: 0; color: ${detail.color}; font-weight: bold;">•</span>${item}</div>`,
+            )
+            .join("")}
         </div>
       </div>
     `
+    })
+
+    infoHTML += `
+      </div>
+    </div>
+  `
 
     tempDiv.innerHTML = infoHTML
 
@@ -1191,7 +1625,7 @@ export default function PersonalityPlusApp() {
     return canvas.toDataURL("image/png")
   }
 
-  // Main print function
+  // Main print function - updated
   const handlePrint = async () => {
     setIsGeneratingPDF(true)
 
@@ -1207,9 +1641,14 @@ export default function PersonalityPlusApp() {
         await new Promise((resolve) => setTimeout(resolve, 1000))
       }
 
-      // Capture all pages
+      // Generate PNG images for each page
+      console.log("Generating Results Page image...")
       const resultsImage = await captureResultsPage()
+
+      console.log("Generating Assessment Page image...")
       const assessmentImage = await captureAssessmentPage()
+
+      console.log("Generating Info Page image...")
       const infoImage = await captureInfoPage()
 
       // Restore original page
@@ -1217,23 +1656,27 @@ export default function PersonalityPlusApp() {
         setCurrentPage(originalPage)
       }
 
-      // Create PDF
+      // Create PDF with proper A4 dimensions
       const pdf = new jsPDF("p", "mm", "a4")
+      const pageWidth = 210 // A4 width in mm
+      const pageHeight = 297 // A4 height in mm
 
       // Add Results Page (Page 1)
-      pdf.addImage(resultsImage, "PNG", 0, 0, 210, 297)
+      pdf.addImage(resultsImage, "PNG", 0, 0, pageWidth, pageHeight)
 
       // Add Assessment Page (Page 2)
       pdf.addPage()
-      pdf.addImage(assessmentImage, "PNG", 0, 0, 210, 297)
+      pdf.addImage(assessmentImage, "PNG", 0, 0, pageWidth, pageHeight)
 
       // Add Info Page (Page 3)
       pdf.addPage()
-      pdf.addImage(infoImage, "PNG", 0, 0, 210, 297)
+      pdf.addImage(infoImage, "PNG", 0, 0, pageWidth, pageHeight)
 
       // Download PDF
       const fileName = savedData ? `${savedData.name}_Personality_Report.pdf` : "Personality_Assessment_Report.pdf"
       pdf.save(fileName)
+
+      console.log("PDF generated successfully!")
     } catch (error) {
       console.error("Error generating PDF:", error)
       alert("Error generating PDF. Please try again.")
