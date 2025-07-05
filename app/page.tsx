@@ -535,134 +535,234 @@ const PersonalityDetailsPage = () => {
 
   return (
     <div
-      className="w-full px-2 sm:px-4"
+      className="w-full px-2 sm:px-4 relative"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Navigation indicators */}
-      <div className="flex justify-center space-x-2 mb-4 sm:mb-6">
+      {/* Ambient lighting effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute -top-40 -left-40 w-80 h-80 rounded-full opacity-20 blur-3xl animate-pulse"
+          style={{ backgroundColor: currentDetail.color }}
+        />
+        <div
+          className="absolute -bottom-40 -right-40 w-80 h-80 rounded-full opacity-15 blur-3xl animate-pulse"
+          style={{ backgroundColor: currentDetail.color, animationDelay: "2s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 blur-3xl animate-pulse"
+          style={{ backgroundColor: currentDetail.color, animationDelay: "4s" }}
+        />
+      </div>
+
+      {/* Navigation indicators with glass effect */}
+      <div className="flex justify-center space-x-2 mb-4 sm:mb-6 relative z-10">
         {personalityDetails.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentPersonality(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              currentPersonality === index ? "bg-gray-800" : "bg-gray-300"
+            className={`w-3 h-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20 ${
+              currentPersonality === index ? "bg-white/90 shadow-lg shadow-white/50" : "bg-white/30 hover:bg-white/50"
             }`}
+            style={{
+              boxShadow:
+                currentPersonality === index
+                  ? `0 0 20px ${currentDetail.color}40, 0 0 40px ${currentDetail.color}20`
+                  : "none",
+            }}
           />
         ))}
       </div>
 
-      {/* Navigation arrows */}
-      <div className="flex justify-between items-center mb-3 sm:mb-4">
+      {/* Navigation arrows with enhanced glass effect */}
+      <div className="flex justify-between items-center mb-3 sm:mb-4 relative z-10">
         <button
           onClick={() => setCurrentPersonality(Math.max(0, currentPersonality - 1))}
           disabled={currentPersonality === 0}
-          className={`p-2 rounded-full ${
-            currentPersonality === 0 ? "text-gray-300" : "text-gray-600 hover:bg-gray-100"
+          className={`p-3 rounded-full backdrop-blur-xl border border-white/30 transition-all duration-300 ${
+            currentPersonality === 0
+              ? "text-white/40 bg-white/10"
+              : "text-white/80 bg-white/20 hover:bg-white/30 hover:scale-110 shadow-lg hover:shadow-xl"
           }`}
+          style={{
+            background:
+              currentPersonality === 0
+                ? "rgba(255, 255, 255, 0.1)"
+                : `linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1))`,
+            boxShadow:
+              currentPersonality === 0
+                ? "none"
+                : `0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+          }}
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        <h2 className="text-lg sm:text-2xl font-bold text-center px-2" style={{ color: currentDetail.color }}>
-          {currentDetail.title}
-        </h2>
+        <div className="text-center px-4">
+          <h2
+            className="text-lg sm:text-2xl font-bold text-white drop-shadow-lg"
+            style={{
+              textShadow: `0 0 20px ${currentDetail.color}80, 0 2px 4px rgba(0, 0, 0, 0.3)`,
+              filter: "drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))",
+            }}
+          >
+            {currentDetail.title}
+          </h2>
+        </div>
 
         <button
           onClick={() => setCurrentPersonality(Math.min(personalityDetails.length - 1, currentPersonality + 1))}
           disabled={currentPersonality === personalityDetails.length - 1}
-          className={`p-2 rounded-full ${
-            currentPersonality === personalityDetails.length - 1 ? "text-gray-300" : "text-gray-600 hover:bg-gray-100"
+          className={`p-3 rounded-full backdrop-blur-xl border border-white/30 transition-all duration-300 ${
+            currentPersonality === personalityDetails.length - 1
+              ? "text-white/40 bg-white/10"
+              : "text-white/80 bg-white/20 hover:bg-white/30 hover:scale-110 shadow-lg hover:shadow-xl"
           }`}
+          style={{
+            background:
+              currentPersonality === personalityDetails.length - 1
+                ? "rgba(255, 255, 255, 0.1)"
+                : `linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1))`,
+            boxShadow:
+              currentPersonality === personalityDetails.length - 1
+                ? "none"
+                : `0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+          }}
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </div>
 
-      {/* Content */}
-      <Card className="w-full mx-auto">
-        <CardHeader className={`text-white text-center py-3 sm:py-4 ${currentDetail.bgColor}`}>
-          <CardTitle className="text-lg sm:text-2xl">{currentDetail.title}</CardTitle>
-          <p className="text-sm sm:text-lg opacity-90">{currentDetail.subtitle}</p>
+      {/* Content with enhanced glass morphism */}
+      <Card className="w-full mx-auto backdrop-blur-2xl bg-white/10 border border-white/20 shadow-2xl relative z-10 overflow-hidden">
+        {/* Card glow effect */}
+        <div
+          className="absolute inset-0 opacity-20 blur-xl"
+          style={{
+            background: `radial-gradient(circle at 50% 0%, ${currentDetail.color}40, transparent 70%)`,
+          }}
+        />
+
+        <CardHeader
+          className="text-white text-center py-4 sm:py-6 relative overflow-hidden"
+          style={{
+            background: `linear-gradient(135deg, ${currentDetail.color}E6, ${currentDetail.color}CC)`,
+            boxShadow: `0 0 40px ${currentDetail.color}40, inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+          }}
+        >
+          {/* Header lighting effect */}
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              background: `radial-gradient(ellipse at top, rgba(255, 255, 255, 0.3), transparent 70%)`,
+            }}
+          />
+
+          <CardTitle className="text-lg sm:text-2xl relative z-10 drop-shadow-lg">{currentDetail.title}</CardTitle>
+          <p className="text-sm sm:text-lg opacity-90 relative z-10 drop-shadow-md">{currentDetail.subtitle}</p>
         </CardHeader>
-        <CardContent className="p-3 sm:p-6">
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 lg:gap-6">
+
+        <CardContent className="p-4 sm:p-6 backdrop-blur-sm bg-white/5 relative">
+          {/* Content background glow */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              background: `radial-gradient(circle at 30% 30%, ${currentDetail.color}20, transparent 60%)`,
+            }}
+          />
+
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 relative z-10">
             {/* Strengths */}
-            <div>
-              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">STRENGTHS</h4>
-              <div className="space-y-0 sm:space-y-0.5">
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-3 sm:p-4 border border-white/20 shadow-lg">
+              <h4 className="font-bold text-sm sm:text-base mb-2 text-white drop-shadow-md">STRENGTHS</h4>
+              <div className="space-y-1 sm:space-y-1.5">
                 {currentDetail.sections.strengths.map((strength, idx) => (
-                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-white/90 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
-                      style={{ backgroundColor: currentDetail.color }}
-                    ></span>
-                    {strength}
+                      className="w-2 h-2 rounded-full mr-2 mt-1 flex-shrink-0 shadow-sm"
+                      style={{
+                        backgroundColor: currentDetail.color,
+                        boxShadow: `0 0 8px ${currentDetail.color}60`,
+                      }}
+                    />
+                    <span className="drop-shadow-sm">{strength}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Emotions */}
-            <div>
-              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">EMOTIONS</h4>
-              <div className="space-y-0 sm:space-y-0.5">
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-3 sm:p-4 border border-white/20 shadow-lg">
+              <h4 className="font-bold text-sm sm:text-base mb-2 text-white drop-shadow-md">EMOTIONS</h4>
+              <div className="space-y-1 sm:space-y-1.5">
                 {currentDetail.sections.emotions.map((emotion, idx) => (
-                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-white/90 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
-                      style={{ backgroundColor: currentDetail.color }}
-                    ></span>
-                    {emotion}
+                      className="w-2 h-2 rounded-full mr-2 mt-1 flex-shrink-0 shadow-sm"
+                      style={{
+                        backgroundColor: currentDetail.color,
+                        boxShadow: `0 0 8px ${currentDetail.color}60`,
+                      }}
+                    />
+                    <span className="drop-shadow-sm">{emotion}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* At Work */}
-            <div>
-              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">AT WORK</h4>
-              <div className="space-y-0 sm:space-y-0.5">
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-3 sm:p-4 border border-white/20 shadow-lg">
+              <h4 className="font-bold text-sm sm:text-base mb-2 text-white drop-shadow-md">AT WORK</h4>
+              <div className="space-y-1 sm:space-y-1.5">
                 {currentDetail.sections.atWork.map((work, idx) => (
-                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-white/90 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
-                      style={{ backgroundColor: currentDetail.color }}
-                    ></span>
-                    {work}
+                      className="w-2 h-2 rounded-full mr-2 mt-1 flex-shrink-0 shadow-sm"
+                      style={{
+                        backgroundColor: currentDetail.color,
+                        boxShadow: `0 0 8px ${currentDetail.color}60`,
+                      }}
+                    />
+                    <span className="drop-shadow-sm">{work}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* As Parent */}
-            <div>
-              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">AS PARENT</h4>
-              <div className="space-y-0 sm:space-y-0.5">
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-3 sm:p-4 border border-white/20 shadow-lg">
+              <h4 className="font-bold text-sm sm:text-base mb-2 text-white drop-shadow-md">AS PARENT</h4>
+              <div className="space-y-1 sm:space-y-1.5">
                 {currentDetail.sections.asParent.map((parent, idx) => (
-                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-white/90 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
-                      style={{ backgroundColor: currentDetail.color }}
-                    ></span>
-                    {parent}
+                      className="w-2 h-2 rounded-full mr-2 mt-1 flex-shrink-0 shadow-sm"
+                      style={{
+                        backgroundColor: currentDetail.color,
+                        boxShadow: `0 0 8px ${currentDetail.color}60`,
+                      }}
+                    />
+                    <span className="drop-shadow-sm">{parent}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* As Friend */}
-            <div>
-              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">AS FRIEND</h4>
-              <div className="space-y-0 sm:space-y-0.5">
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-3 sm:p-4 border border-white/20 shadow-lg">
+              <h4 className="font-bold text-sm sm:text-base mb-2 text-white drop-shadow-md">AS FRIEND</h4>
+              <div className="space-y-1 sm:space-y-1.5">
                 {currentDetail.sections.asFriend.map((friend, idx) => (
-                  <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
+                  <div key={idx} className="text-[10px] sm:text-xs text-white/90 flex items-start">
                     <span
-                      className="w-2 h-2 rounded-full mr-2 mt-0.5 sm:mt-1 flex-shrink-0"
-                      style={{ backgroundColor: currentDetail.color }}
-                    ></span>
-                    {friend}
+                      className="w-2 h-2 rounded-full mr-2 mt-1 flex-shrink-0 shadow-sm"
+                      style={{
+                        backgroundColor: currentDetail.color,
+                        boxShadow: `0 0 8px ${currentDetail.color}60`,
+                      }}
+                    />
+                    <span className="drop-shadow-sm">{friend}</span>
                   </div>
                 ))}
               </div>
@@ -671,9 +771,13 @@ const PersonalityDetailsPage = () => {
         </CardContent>
       </Card>
 
-      {/* Swipe hint */}
-      <div className="text-center mt-3 sm:mt-4 text-gray-500 text-xs sm:text-sm">
-        Swipe left/right or use arrows to explore other personality types
+      {/* Swipe hint with glass effect */}
+      <div className="text-center mt-4 sm:mt-6 relative z-10">
+        <div className="inline-block backdrop-blur-sm bg-white/10 rounded-full px-4 py-2 border border-white/20 shadow-lg">
+          <span className="text-white/80 text-xs sm:text-sm drop-shadow-sm">
+            Swipe left/right or use arrows to explore other personality types
+          </span>
+        </div>
       </div>
     </div>
   )
@@ -685,6 +789,7 @@ export default function PersonalityPlusApp() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
 
   const [savedData, setSavedData] = useState<{
     name: string
@@ -786,6 +891,357 @@ export default function PersonalityPlusApp() {
   const strengthScores = getStrengthsScore()
   const weaknessScores = getWeaknessesScore()
 
+  // Function to create a temporary element for capturing
+  const createCaptureElement = (content: React.ReactNode, className = "") => {
+    const tempDiv = document.createElement("div")
+    tempDiv.style.position = "absolute"
+    tempDiv.style.left = "-9999px"
+    tempDiv.style.top = "0"
+    tempDiv.style.width = "794px" // A4 width in pixels at 96 DPI
+    tempDiv.style.height = "1123px" // A4 height in pixels at 96 DPI
+    tempDiv.style.backgroundColor = "white"
+    tempDiv.style.padding = "40px"
+    tempDiv.style.boxSizing = "border-box"
+    tempDiv.className = className
+    document.body.appendChild(tempDiv)
+    return tempDiv
+  }
+
+  // Function to capture Results Page with actual charts
+  const captureResultsPage = async () => {
+    const html2canvas = (await import("html2canvas")).default
+
+    // Get the current date
+    const currentDate = new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+
+    // Get person name from saved data or use default
+    const personName = savedData?.name || "Assessment Participant"
+
+    const tempDiv = createCaptureElement(null, "capture-results")
+    tempDiv.style.height = "auto"
+    tempDiv.style.minHeight = "1123px"
+    tempDiv.style.padding = "20px"
+
+    // Create the header with person name and date
+    const headerHTML = `
+    <div style="text-align: center; margin-bottom: 30px; font-family: system-ui, -apple-system, sans-serif;">
+      <h1 style="font-size: 28px; color: #1f2937; margin-bottom: 8px; font-weight: bold;">
+        Personality Profile of: ${personName}
+      </h1>
+      <p style="font-size: 16px; color: #6b7280; margin: 0;">
+        Generated on ${currentDate}
+      </p>
+    </div>
+  `
+
+    tempDiv.innerHTML = headerHTML
+
+    // Create containers for each chart section
+    const chartsContainer = document.createElement("div")
+    chartsContainer.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-family: system-ui, -apple-system, sans-serif;
+  `
+
+    // Find the actual chart elements from the DOM
+    const strengthsChart = document.querySelector('[data-chart="strengths"]')
+    const weaknessesChart = document.querySelector('[data-chart="weaknesses"]')
+    const totalChart = document.querySelector('[data-chart="total"]')
+
+    if (strengthsChart) {
+      const strengthsClone = strengthsChart.cloneNode(true) as HTMLElement
+      strengthsClone.style.cssText = `
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      margin-bottom: 20px;
+      width: 100%;
+      box-sizing: border-box;
+    `
+      chartsContainer.appendChild(strengthsClone)
+    }
+
+    if (weaknessesChart) {
+      const weaknessesClone = weaknessesChart.cloneNode(true) as HTMLElement
+      weaknessesClone.style.cssText = `
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      margin-bottom: 20px;
+      width: 100%;
+      box-sizing: border-box;
+    `
+      chartsContainer.appendChild(weaknessesClone)
+    }
+
+    if (totalChart) {
+      const totalClone = totalChart.cloneNode(true) as HTMLElement
+      totalClone.style.cssText = `
+      background: linear-gradient(135deg, #f3e8ff 0%, #dbeafe 50%, #e0e7ff 100%);
+      border: 2px solid #a855f7;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      width: 100%;
+      box-sizing: border-box;
+    `
+      chartsContainer.appendChild(totalClone)
+    }
+
+    tempDiv.appendChild(chartsContainer)
+
+    // Wait a moment for any dynamic content to render
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
+    const canvas = await html2canvas(tempDiv, {
+      width: 794,
+      height: Math.max(1123, tempDiv.scrollHeight),
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#f9fafb",
+      logging: false,
+      onclone: (clonedDoc) => {
+        // Ensure all SVG elements are properly rendered
+        const svgs = clonedDoc.querySelectorAll("svg")
+        svgs.forEach((svg) => {
+          svg.style.display = "block"
+        })
+      },
+    })
+
+    document.body.removeChild(tempDiv)
+    return canvas.toDataURL("image/png")
+  }
+
+  // Function to capture Assessment Page
+  const captureAssessmentPage = async () => {
+    const html2canvas = (await import("html2canvas")).default
+
+    const tempDiv = createCaptureElement(null, "capture-assessment")
+
+    // Generate assessment table HTML
+    let assessmentHTML = `
+      <div style="font-family: system-ui, -apple-system, sans-serif; font-size: 10px;">
+        <h1 style="font-size: 20px; text-align: center; margin-bottom: 20px; color: #333;">Personality Scoring Sheet</h1>
+        <table style="width: 100%; border-collapse: collapse; font-size: 9px;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #000; padding: 5px; background-color: #f0f0f0;"></th>
+              <th style="border: 1px solid #000; padding: 5px; background-color: #3182ce; color: white; text-align: center;">Popular Sanguine</th>
+              <th style="border: 1px solid #000; padding: 5px; background-color: #e53e3e; color: white; text-align: center;">Powerful Choleric</th>
+              <th style="border: 1px solid #000; padding: 5px; background-color: #38a169; color: white; text-align: center;">Perfect Melancholy</th>
+              <th style="border: 1px solid #000; padding: 5px; background-color: #805ad5; color: white; text-align: center;">Peaceful Phlegmatic</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="5" style="border: 1px solid #000; padding: 5px; background-color: #bee3f8; font-weight: bold; text-align: center;">Strengths</td>
+            </tr>
+    `
+
+    // Add strengths rows
+    personalityData.slice(0, 20).forEach((row, index) => {
+      assessmentHTML += `
+        <tr>
+          <td style="border: 1px solid #000; padding: 3px; text-align: center; font-weight: bold; width: 30px;">${index + 1}</td>
+          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "sanguine" ? "✓ " : ""}${row.sanguine}</td>
+          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "choleric" ? "✓ " : ""}${row.choleric}</td>
+          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "melancholy" ? "✓ " : ""}${row.melancholy}</td>
+          <td style="border: 1px solid #000; padding: 3px;">${selections[index] === "phlegmatic" ? "✓ " : ""}${row.phlegmatic}</td>
+        </tr>
+      `
+    })
+
+    assessmentHTML += `
+            <tr>
+              <td colspan="5" style="border: 1px solid #000; padding: 5px; background-color: #faf089; font-weight: bold; text-align: center;">Weaknesses</td>
+            </tr>
+    `
+
+    // Add weaknesses rows
+    personalityData.slice(20, 40).forEach((row, index) => {
+      assessmentHTML += `
+        <tr>
+          <td style="border: 1px solid #000; padding: 3px; text-align: center; font-weight: bold; width: 30px;">${index + 21}</td>
+          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "sanguine" ? "✓ " : ""}${row.sanguine}</td>
+          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "choleric" ? "✓ " : ""}${row.choleric}</td>
+          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "melancholy" ? "✓ " : ""}${row.melancholy}</td>
+          <td style="border: 1px solid #000; padding: 3px; background-color: #fffbeb;">${selections[index + 20] === "phlegmatic" ? "✓ " : ""}${row.phlegmatic}</td>
+        </tr>
+      `
+    })
+
+    // Add scoring rows
+    assessmentHTML += `
+            <tr style="background-color: #fef3c7;">
+              <td style="border: 1px solid #000; padding: 5px; background-color: #fde68a; font-weight: bold; text-align: center;">Score Strengths</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.sanguine}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.choleric}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.melancholy}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #1e40af;">${strengthScores.phlegmatic}</td>
+            </tr>
+            <tr style="background-color: #fef3c7;">
+              <td style="border: 1px solid #000; padding: 5px; background-color: #fde68a; font-weight: bold; text-align: center;">Score Weakness</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.sanguine}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.choleric}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.melancholy}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #dc2626;">${weaknessScores.phlegmatic}</td>
+            </tr>
+            <tr style="background-color: #fde68a;">
+              <td style="border: 1px solid #000; padding: 5px; background-color: #fbbf24; font-weight: bold; text-align: center;">Score Total</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.sanguine}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.choleric}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.melancholy}</td>
+              <td style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold; color: #7c3aed;">${scores.phlegmatic}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `
+
+    tempDiv.innerHTML = assessmentHTML
+
+    const canvas = await html2canvas(tempDiv, {
+      width: 794,
+      height: 1123,
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#ffffff",
+    })
+
+    document.body.removeChild(tempDiv)
+    return canvas.toDataURL("image/png")
+  }
+
+  // Function to capture Info Page
+  const captureInfoPage = async () => {
+    const html2canvas = (await import("html2canvas")).default
+
+    const tempDiv = createCaptureElement(null, "capture-info")
+
+    let infoHTML = `
+      <div style="font-family: system-ui, -apple-system, sans-serif;">
+        <h1 style="font-size: 20px; text-align: center; margin-bottom: 20px; color: #333;">Personality Types Information</h1>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    `
+
+    personalityDetails.forEach((detail) => {
+      infoHTML += `
+        <div style="border: 2px solid #000; border-radius: 8px; overflow: hidden; break-inside: avoid; height: fit-content;">
+          <div style="padding: 10px; color: white; text-align: center; font-weight: bold; font-size: 14px; background-color: ${detail.color};">
+            <div>${detail.title}</div>
+            <div style="font-size: 10px; opacity: 0.9;">${detail.subtitle}</div>
+          </div>
+          <div style="padding: 10px; font-size: 8px; line-height: 1.3;">
+            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">STRENGTHS</div>
+            ${detail.sections.strengths
+              .slice(0, 6)
+              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
+              .join("")}
+            
+            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">EMOTIONS</div>
+            ${detail.sections.emotions
+              .slice(0, 3)
+              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
+              .join("")}
+            
+            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">AT WORK</div>
+            ${detail.sections.atWork
+              .slice(0, 3)
+              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
+              .join("")}
+            
+            <div style="font-weight: bold; font-size: 9px; margin: 8px 0 4px 0; color: #333; text-transform: uppercase;">AS FRIEND</div>
+            ${detail.sections.asFriend
+              .slice(0, 3)
+              .map((item) => `<div style="margin-bottom: 2px;">• ${item}</div>`)
+              .join("")}
+          </div>
+        </div>
+      `
+    })
+
+    infoHTML += `
+        </div>
+      </div>
+    `
+
+    tempDiv.innerHTML = infoHTML
+
+    const canvas = await html2canvas(tempDiv, {
+      width: 794,
+      height: 1123,
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#ffffff",
+    })
+
+    document.body.removeChild(tempDiv)
+    return canvas.toDataURL("image/png")
+  }
+
+  // Main print function
+  const handlePrint = async () => {
+    setIsGeneratingPDF(true)
+
+    try {
+      // Import jsPDF
+      const { jsPDF } = await import("jspdf")
+
+      // Temporarily switch to results page to ensure charts are rendered
+      const originalPage = currentPage
+      if (currentPage !== 3) {
+        setCurrentPage(3)
+        // Wait for page transition and chart rendering
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+      }
+
+      // Capture all pages
+      const resultsImage = await captureResultsPage()
+      const assessmentImage = await captureAssessmentPage()
+      const infoImage = await captureInfoPage()
+
+      // Restore original page
+      if (originalPage !== 3) {
+        setCurrentPage(originalPage)
+      }
+
+      // Create PDF
+      const pdf = new jsPDF("p", "mm", "a4")
+
+      // Add Results Page (Page 1)
+      pdf.addImage(resultsImage, "PNG", 0, 0, 210, 297)
+
+      // Add Assessment Page (Page 2)
+      pdf.addPage()
+      pdf.addImage(assessmentImage, "PNG", 0, 0, 210, 297)
+
+      // Add Info Page (Page 3)
+      pdf.addPage()
+      pdf.addImage(infoImage, "PNG", 0, 0, 210, 297)
+
+      // Download PDF
+      const fileName = savedData ? `${savedData.name}_Personality_Report.pdf` : "Personality_Assessment_Report.pdf"
+      pdf.save(fileName)
+    } catch (error) {
+      console.error("Error generating PDF:", error)
+      alert("Error generating PDF. Please try again.")
+    } finally {
+      setIsGeneratingPDF(false)
+    }
+  }
+
   const RadarChart = ({ data, title, isTotal = false }: { data: any; title: string; isTotal?: boolean }) => {
     const temperaments = Object.keys(data)
     const values = Object.values(data) as number[]
@@ -834,22 +1290,80 @@ export default function PersonalityPlusApp() {
               ? "weaknesses"
               : "total"
         }
-        className={`p-3 sm:p-6 ${isTotal ? "bg-gradient-to-br from-purple-100 via-blue-100 to-indigo-100 border-2 border-purple-300" : "bg-white"} rounded-lg shadow-lg mb-4 sm:mb-6 mx-2 sm:mx-0`}
+        className={`p-4 sm:p-6 rounded-2xl shadow-2xl mb-6 sm:mb-8 mx-2 sm:mx-0 backdrop-blur-xl border relative overflow-hidden ${
+          isTotal
+            ? "bg-gradient-to-br from-purple-600/40 via-blue-600/40 to-indigo-600/40 border-purple-400/50 transform scale-105"
+            : "bg-white/10 border-white/20"
+        }`}
+        style={{
+          boxShadow: isTotal
+            ? `0 0 80px ${dominantColor}50, 0 0 120px ${dominantColor}30, 0 25px 50px rgba(0, 0, 0, 0.2), inset 0 2px 0 rgba(255, 255, 255, 0.3)`
+            : `0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+          animation: isTotal ? "float 3s ease-in-out infinite, glow 4s ease-in-out infinite" : "none",
+        }}
       >
+        {/* Chart background glow */}
+        <div
+          className="absolute inset-0 blur-2xl"
+          style={{
+            background: isTotal
+              ? `radial-gradient(circle at 50% 50%, ${dominantColor}60, rgba(147, 51, 234, 0.4), transparent 70%)`
+              : `radial-gradient(circle at 50% 50%, ${dominantColor}40, transparent 70%)`,
+            opacity: isTotal ? 0.4 : 0.2,
+          }}
+        />
+        {/* Special pulsing border for total chart */}
+        {isTotal && (
+          <div
+            className="absolute inset-0 rounded-2xl border-4 border-purple-400/60 animate-pulse"
+            style={{
+              boxShadow: `0 0 40px ${dominantColor}60, inset 0 0 40px ${dominantColor}20`,
+              animation: "pulse 2s ease-in-out infinite",
+            }}
+          />
+        )}
+
         <h3
-          className={`${isTotal ? "text-xl sm:text-2xl" : "text-lg sm:text-xl"} font-bold text-center mb-4 sm:mb-6 ${isTotal ? "text-purple-900 bg-white/70 py-2 px-4 rounded-lg shadow-sm" : "text-gray-800"}`}
+          className={`${isTotal ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"} font-bold text-center mb-6 sm:mb-8 text-white relative z-10`}
+          style={{
+            textShadow: isTotal
+              ? `0 0 30px ${dominantColor}FF, 0 0 60px ${dominantColor}80, 0 4px 8px rgba(0, 0, 0, 0.5)`
+              : "0 2px 4px rgba(0, 0, 0, 0.3)",
+            filter: isTotal
+              ? "drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))"
+              : "drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))",
+          }}
         >
-          {title}
+          {isTotal && (
+            <div className="inline-block backdrop-blur-sm bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-full px-6 py-3 border-2 border-purple-400/50 shadow-2xl mb-3 animate-pulse">
+              <span className="bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text text-transparent font-extrabold">
+                {title}
+              </span>
+            </div>
+          )}
+          {!isTotal && title}
         </h3>
 
         {/* Radar Chart and Bar Chart Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-center relative z-10">
           {/* Radar Chart */}
           <div className="flex flex-col items-center">
-            <h4 className="text-sm sm:text-base font-semibold mb-0 sm:mb-1 text-gray-700">Radar View</h4>
+            <div className="backdrop-blur-sm bg-white/10 rounded-full px-3 py-1 border border-white/20 shadow-lg mb-3">
+              <h4 className="text-sm sm:text-base font-semib old text-white drop-shadow-sm">Radar View</h4>
+            </div>
             <div className="relative flex justify-center px-12 py-8">
-              <svg width="240" height="240" viewBox="0 0 200 200" className="mb-3 sm:mb-4 sm:w-[270px] sm:h-[270px]">
-                {/* Grid lines */}
+              <svg
+                width="240"
+                height="240"
+                viewBox="0 0 200 200"
+                className={`mb-4 sm:w-[270px] sm:h-[270px] drop-shadow-lg ${isTotal ? "transform scale-110" : ""}`}
+                style={{
+                  filter: isTotal
+                    ? `drop-shadow(0 0 20px ${dominantColor}80) drop-shadow(0 0 40px ${dominantColor}40)`
+                    : "none",
+                }}
+              >
+                {/* Grid lines with glow */}
                 {gridLevels.map((level, i) => {
                   const size = level * 80
                   return (
@@ -860,77 +1374,102 @@ export default function PersonalityPlusApp() {
                       width={size * 2}
                       height={size * 2}
                       fill="none"
-                      stroke="#e5e7eb"
+                      stroke="rgba(255, 255, 255, 0.3)"
                       strokeWidth="1"
+                      style={{
+                        filter: "drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))",
+                      }}
                     />
                   )
                 })}
 
-                {/* Axis lines */}
-                <line x1="100" y1="20" x2="100" y2="180" stroke="#d1d5db" strokeWidth="1" />
-                <line x1="20" y1="100" x2="180" y2="100" stroke="#d1d5db" strokeWidth="1" />
-
-                {/* Data area - now uses dominant temperament color */}
-                <path
-                  d={pathData}
-                  fill={isTotal ? `${dominantColor}40` : `${dominantColor}33`}
-                  stroke={isTotal ? dominantColor : dominantColor}
-                  strokeWidth={isTotal ? "3" : "2"}
+                {/* Axis lines with glow */}
+                <line
+                  x1="100"
+                  y1="20"
+                  x2="100"
+                  y2="180"
+                  stroke="rgba(255, 255, 255, 0.4)"
+                  strokeWidth="1"
+                  style={{ filter: "drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))" }}
+                />
+                <line
+                  x1="20"
+                  y1="100"
+                  x2="180"
+                  y2="100"
+                  stroke="rgba(255, 255, 255, 0.4)"
+                  strokeWidth="1"
+                  style={{ filter: "drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))" }}
                 />
 
-                {/* Data points */}
+                {/* Data area with enhanced glow */}
+                <path
+                  d={pathData}
+                  fill={isTotal ? `${dominantColor}80` : `${dominantColor}40`}
+                  stroke={dominantColor}
+                  strokeWidth={isTotal ? "6" : "3"}
+                  style={{
+                    filter: isTotal
+                      ? `drop-shadow(0 0 20px ${dominantColor}FF) drop-shadow(0 0 40px ${dominantColor}80)`
+                      : `drop-shadow(0 0 10px ${dominantColor}80)`,
+                  }}
+                />
+
+                {/* Data points with enhanced glow */}
                 {points.map((point, index) => (
                   <circle
                     key={index}
                     cx={point.x}
                     cy={point.y}
-                    r="4"
+                    r={isTotal ? "7" : "5"}
                     fill={temperamentColors[orderedData[index].key as keyof typeof temperamentColors]}
                     stroke="white"
-                    strokeWidth="2"
+                    strokeWidth={isTotal ? "3" : "2"}
+                    style={{
+                      filter: isTotal
+                        ? `drop-shadow(0 0 15px ${temperamentColors[orderedData[index].key as keyof typeof temperamentColors]}FF) drop-shadow(0 0 30px ${temperamentColors[orderedData[index].key as keyof typeof temperamentColors]}80)`
+                        : `drop-shadow(0 0 8px ${temperamentColors[orderedData[index].key as keyof typeof temperamentColors]}80)`,
+                    }}
                   />
                 ))}
               </svg>
 
-              {/* Labels positioned 40% closer to center */}
+              {/* Labels with glass effect */}
               <div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div
-                  className="text-[9px] font-semibold text-center px-1"
-                  style={{ color: temperamentColors.melancholy }}
-                >
-                  <div className="text-[9px] leading-tight">Perfect</div>
-                  <div className="text-[9px] leading-tight">Melancholy</div>
-                  <span className="text-xs font-bold">{data.melancholy}</span>
+                <div className="backdrop-blur-sm bg-white/20 rounded-lg px-2 py-1 border border-white/30 shadow-lg">
+                  <div className="text-[9px] font-semibold text-center text-white drop-shadow-sm">
+                    <div className="text-[9px] leading-tight">Perfect</div>
+                    <div className="text-[9px] leading-tight">Melancholy</div>
+                    <span className="text-xs font-bold">{data.melancholy}</span>
+                  </div>
                 </div>
               </div>
               <div className="absolute right-[20%] top-1/2 transform translate-x-1/2 -translate-y-1/2">
-                <div
-                  className="text-[9px] font-semibold text-center px-1"
-                  style={{ color: temperamentColors.choleric }}
-                >
-                  <div className="text-[9px] leading-tight">Powerful</div>
-                  <div className="text-[9px] leading-tight">Choleric</div>
-                  <span className="text-xs font-bold">{data.choleric}</span>
+                <div className="backdrop-blur-sm bg-white/20 rounded-lg px-2 py-1 border border-white/30 shadow-lg">
+                  <div className="text-[9px] font-semibold text-center text-white drop-shadow-sm">
+                    <div className="text-[9px] leading-tight">Powerful</div>
+                    <div className="text-[9px] leading-tight">Choleric</div>
+                    <span className="text-xs font-bold">{data.choleric}</span>
+                  </div>
                 </div>
               </div>
               <div className="absolute bottom-[20%] left-1/2 transform -translate-x-1/2 translate-y-1/2">
-                <div
-                  className="text-[9px] font-semibold text-center px-1"
-                  style={{ color: temperamentColors.sanguine }}
-                >
-                  <div className="text-[9px] leading-tight">Popular</div>
-                  <div className="text-[9px] leading-tight">Sanguine</div>
-                  <span className="text-xs font-bold">{data.sanguine}</span>
+                <div className="backdrop-blur-sm bg-white/20 rounded-lg px-2 py-1 border border-white/30 shadow-lg">
+                  <div className="text-[9px] font-semibold text-center text-white drop-shadow-sm">
+                    <div className="text-[9px] leading-tight">Popular</div>
+                    <div className="text-[9px] leading-tight">Sanguine</div>
+                    <span className="text-xs font-bold">{data.sanguine}</span>
+                  </div>
                 </div>
               </div>
               <div className="absolute left-[20%] top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div
-                  className="text-[9px] font-semibold text-center px-1"
-                  style={{ color: temperamentColors.phlegmatic }}
-                >
-                  <div className="text-[9px] leading-tight">Peaceful</div>
-                  <div className="text-[9px] leading-tight">Phlegmatic</div>
-                  <span className="text-xs font-bold">{data.phlegmatic}</span>
+                <div className="backdrop-blur-sm bg-white/20 rounded-lg px-2 py-1 border border-white/30 shadow-lg">
+                  <div className="text-[9px] font-semibold text-center text-white drop-shadow-sm">
+                    <div className="text-[9px] leading-tight">Peaceful</div>
+                    <div className="text-[9px] leading-tight">Phlegmatic</div>
+                    <span className="text-xs font-bold">{data.phlegmatic}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -938,10 +1477,12 @@ export default function PersonalityPlusApp() {
 
           {/* Vertical Bar Chart */}
           <div className="flex flex-col items-center">
-            <h4 className="text-sm sm:text-base font-semibold mb-0 sm:mb-1 text-gray-700">Bar Chart View</h4>
+            <div className="backdrop-blur-sm bg-white/10 rounded-full px-3 py-1 border border-white/20 shadow-lg mb-3">
+              <h4 className="text-sm sm:text-base font-semibold text-white drop-shadow-sm">Bar Chart View</h4>
+            </div>
             <div className="w-full max-w-xs sm:max-w-sm flex justify-center">
-              <svg width="100%" height="250" viewBox="0 0 280 250" className="mb-3 sm:mb-4 sm:h-[300px]">
-                {/* Grid lines */}
+              <svg width="100%" height="250" viewBox="0 0 280 250" className="mb-4 sm:h-[300px] drop-shadow-lg">
+                {/* Grid lines with glow */}
                 {[0, 5, 10, 15, 20].map((value, i) => (
                   <g key={i}>
                     <line
@@ -949,55 +1490,70 @@ export default function PersonalityPlusApp() {
                       y1={220 - (value / 20) * 180}
                       x2="260"
                       y2={220 - (value / 20) * 180}
-                      stroke="#e5e7eb"
+                      stroke="rgba(255, 255, 255, 0.3)"
                       strokeWidth="1"
+                      style={{ filter: "drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))" }}
                     />
-                    <text x="30" y={225 - (value / 20) * 180} textAnchor="end" fontSize="10" fill="#6b7280">
+                    <text
+                      x="30"
+                      y={225 - (value / 20) * 180}
+                      textAnchor="end"
+                      fontSize="10"
+                      fill="rgba(255, 255, 255, 0.8)"
+                      style={{ filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))" }}
+                    >
                       {value}
                     </text>
                   </g>
                 ))}
 
-                {/* Bars */}
+                {/* Bars with enhanced glow */}
                 {Object.entries(data).map(([temperament, score], index) => {
                   const barWidth = 35
                   const barHeight = (Number(score) / Math.max(20, maxValue)) * 180
                   const x = 50 + index * 50
                   const y = 220 - barHeight
+                  const color = temperamentColors[temperament as keyof typeof temperamentColors]
 
                   return (
                     <g key={temperament}>
-                      {/* Bar */}
+                      {/* Bar with glow */}
                       <rect
                         x={x}
                         y={y}
                         width={barWidth}
                         height={barHeight}
-                        fill={temperamentColors[temperament as keyof typeof temperamentColors]}
-                        rx="2"
-                        stroke={isTotal ? "#ffffff" : "none"}
-                        strokeWidth={isTotal ? "2" : "0"}
-                        filter={isTotal ? "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))" : "none"}
+                        fill={color}
+                        rx="4"
+                        stroke="rgba(255, 255, 255, 0.3)"
+                        strokeWidth="2"
+                        style={{
+                          filter: `drop-shadow(0 0 15px ${color}60) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))`,
+                        }}
                       />
-                      {/* Score label on top of bar */}
+                      {/* Score label with glow */}
                       <text
                         x={x + barWidth / 2}
-                        y={y - 5}
+                        y={y - 8}
                         textAnchor="middle"
-                        fontSize="12"
+                        fontSize="14"
                         fontWeight="bold"
-                        fill={temperamentColors[temperament as keyof typeof temperamentColors]}
+                        fill="white"
+                        style={{
+                          filter: `drop-shadow(0 0 8px ${color}80) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))`,
+                        }}
                       >
                         {score}
                       </text>
-                      {/* Temperament label */}
+                      {/* Temperament label with backdrop */}
                       <text
                         x={x + barWidth / 2}
-                        y={235}
+                        y={240}
                         textAnchor="middle"
                         fontSize="8"
-                        fill="#374151"
-                        transform={`rotate(-45, ${x + barWidth / 2}, 235)`}
+                        fill="rgba(255, 255, 255, 0.9)"
+                        transform={`rotate(-45, ${x + barWidth / 2}, 240)`}
+                        style={{ filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))" }}
                       >
                         {temperamentNames[temperament as keyof typeof temperamentNames].split(" ")[1]}
                       </text>
@@ -1009,19 +1565,27 @@ export default function PersonalityPlusApp() {
           </div>
         </div>
 
-        {/* Combined Legend - All in one row */}
-        <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-4 sm:mt-6 w-full mx-auto">
+        {/* Combined Legend with glass effect */}
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8 w-full mx-auto relative z-10">
           {Object.entries(data).map(([temperament, score]) => (
-            <div key={temperament} className="flex items-center space-x-1 min-w-0">
-              <div
-                className="w-2 h-2 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-                style={{ backgroundColor: temperamentColors[temperament as keyof typeof temperamentColors] }}
-              />
-              <div className="flex flex-col min-w-0">
-                <div className="text-[6px] sm:text-[8px] font-medium leading-tight truncate">
-                  {temperamentNames[temperament as keyof typeof temperamentNames]}
+            <div
+              key={temperament}
+              className="backdrop-blur-sm bg-white/10 rounded-xl px-3 py-2 border border-white/20 shadow-lg"
+            >
+              <div className="flex items-center space-x-2">
+                <div
+                  className="w-3 h-3 rounded-full flex-shrink-0"
+                  style={{
+                    backgroundColor: temperamentColors[temperament as keyof typeof temperamentColors],
+                    boxShadow: `0 0 8px ${temperamentColors[temperament as keyof typeof temperamentColors]}60`,
+                  }}
+                />
+                <div className="flex flex-col">
+                  <div className="text-[8px] sm:text-[10px] font-medium leading-tight text-white/90 drop-shadow-sm">
+                    {temperamentNames[temperament as keyof typeof temperamentNames]}
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-center text-white drop-shadow-sm">{score}</div>
                 </div>
-                <div className="text-[10px] sm:text-xs font-bold text-center">{score}</div>
               </div>
             </div>
           ))}
@@ -1030,66 +1594,134 @@ export default function PersonalityPlusApp() {
     )
   }
 
-  const handlePrint = () => {
-    window.print()
-  }
-
   return (
     <div
-      className="min-h-screen bg-gray-50 overflow-hidden"
+      className="min-h-screen overflow-hidden relative"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
       ref={containerRef}
+      style={{
+        background: "linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e40af 75%, #3b82f6 100%)",
+        backgroundSize: "400% 400%",
+        animation: "gradientShift 15s ease infinite",
+      }}
     >
-      {/* Page Navigation Indicators */}
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 flex space-x-2">
+      {/* Global gradient animation */}
+      <style jsx global>{`
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes glow {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+        }
+      `}</style>
+
+      {/* Ambient lighting overlay */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-slate-800/20 via-transparent to-blue-900/30" />
+        <div
+          className="absolute -top-40 -left-40 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl animate-pulse"
+          style={{ animationDuration: "4s" }}
+        />
+        <div
+          className="absolute -bottom-40 -right-40 w-80 h-80 bg-slate-600/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDuration: "6s", animationDelay: "2s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-pulse"
+          style={{ animationDuration: "8s", animationDelay: "4s" }}
+        />
+      </div>
+
+      {/* Page Navigation Indicators with enhanced glass effect */}
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 flex space-x-3">
         {[1, 2, 3].map((page) => (
           <div
             key={page}
-            className={`w-3 h-3 rounded-full transition-all ${currentPage === page ? "bg-blue-600" : "bg-gray-300"}`}
+            className={`w-4 h-4 rounded-full transition-all duration-300 backdrop-blur-xl border border-white/30 ${
+              currentPage === page ? "bg-white/90 shadow-2xl" : "bg-white/20 hover:bg-white/40"
+            }`}
+            style={{
+              boxShadow:
+                currentPage === page
+                  ? "0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)"
+                  : "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+              animation: currentPage === page ? "glow 2s ease-in-out infinite" : "none",
+            }}
           />
         ))}
       </div>
 
-      {/* Swipe Navigation Hints */}
-      <div className="fixed top-4 right-4 z-50 flex space-x-2">
+      {/* Swipe Navigation Hints with enhanced glass effect */}
+      <div className="fixed top-4 right-4 z-50 flex space-x-3">
         {currentPage > 1 && (
-          <button onClick={() => setCurrentPage(currentPage - 1)} className="p-2 bg-white rounded-full shadow-lg">
-            <ChevronLeft className="w-4 h-4" />
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="p-3 backdrop-blur-xl bg-white/20 rounded-full shadow-2xl border border-white/30 hover:bg-white/30 hover:scale-110 transition-all duration-300"
+            style={{
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+              animation: "float 3s ease-in-out infinite",
+            }}
+          >
+            <ChevronLeft className="w-5 h-5 text-white drop-shadow-lg" />
           </button>
         )}
         {currentPage < 3 && (
-          <button onClick={() => setCurrentPage(currentPage + 1)} className="p-2 bg-white rounded-full shadow-lg">
-            <ChevronRight className="w-4 h-4" />
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            className="p-3 backdrop-blur-xl bg-white/20 rounded-full shadow-2xl border border-white/30 hover:bg-white/30 hover:scale-110 transition-all duration-300"
+            style={{
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+              animation: "float 3s ease-in-out infinite",
+              animationDelay: "1s",
+            }}
+          >
+            <ChevronRight className="w-5 h-5 text-white drop-shadow-lg" />
           </button>
         )}
       </div>
 
       <div
-        className="flex transition-transform duration-300 ease-in-out h-screen"
+        className="flex transition-transform duration-500 ease-out h-screen"
         style={{ transform: `translateX(-${(currentPage - 1) * 100}%)` }}
       >
-        {/* Page 1 - Descriptions (moved to the left) */}
+        {/* Page 1 - Descriptions */}
         <div className="w-full flex-shrink-0 p-2 sm:p-4 overflow-y-auto">
           <div className="max-w-4xl mx-auto pt-12 sm:pt-16">
             <PersonalityDetailsPage />
           </div>
         </div>
 
-        {/* Page 2 - Home/Scoring Sheet (now in the middle) */}
-        <div className="w-full flex-shrink-0 p-2 sm:p-4 overflow-y-auto">
+        {/* Page 2 - Home/Scoring Sheet */}
+        <div className="w-full flex-shrink-0 p-2 sm:p-4 overflow-y-auto relative">
           <div className="max-w-5xl mx-auto pt-12 sm:pt-16">
-            {/* Header */}
-            <div className="bg-gray-600 text-white text-center py-2 sm:py-3 mb-0">
-              <h1 className="text-lg sm:text-xl font-bold">Personality Scoring Sheet</h1>
-              <p className="text-xs sm:text-sm mt-1">Use (x) to mark your choice</p>
-              <p className="text-xs sm:text-sm font-semibold text-red-300 mt-1">
-                It is important to choose Only one decision that most describes you
+            {/* Header with enhanced glass effect */}
+            <div
+              className="backdrop-blur-xl bg-gray-800/80 text-white text-center py-3 sm:py-4 mb-0 rounded-t-2xl border border-white/20 shadow-2xl relative overflow-hidden"
+              style={{
+                boxShadow: "0 0 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+              }}
+            >
+              {/* Header glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 opacity-50" />
+
+              <h1 className="text-lg sm:text-xl font-bold relative z-10 drop-shadow-lg">Personality Scoring Sheet</h1>
+              <p className="text-xs sm:text-sm mt-1 relative z-10 drop-shadow-md opacity-90">
+                Pick the word that best describes you in each row
               </p>
             </div>
 
-            {/* Column Headers */}
+            {/* Column Headers with enhanced styling */}
             <style jsx global>{`
               .assessment-cell {
                 word-break: break-word;
@@ -1098,70 +1730,87 @@ export default function PersonalityPlusApp() {
               }
             `}</style>
             <div
-              className="grid border-b-2 border-gray-400"
+              className="grid border-b-2 border-white/30 backdrop-blur-sm"
               style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
             >
-              <div className="bg-gray-200 border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm"></div>
+              <div className="backdrop-blur-xl bg-white/20 border border-white/30 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm shadow-lg"></div>
               <div
-                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
-                style={{ backgroundColor: temperamentColors.sanguine }}
+                className="text-white border border-white/30 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs backdrop-blur-xl shadow-lg"
+                style={{
+                  backgroundColor: `${temperamentColors.sanguine}CC`,
+                  boxShadow: `0 0 20px ${temperamentColors.sanguine}40, inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+                }}
               >
                 Popular Sanguine
                 <br />
-                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline opacity-90">
                   Extrovert • Talker • Optimist
                 </span>
               </div>
               <div
-                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
-                style={{ backgroundColor: temperamentColors.choleric }}
+                className="text-white border border-white/30 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs backdrop-blur-xl shadow-lg"
+                style={{
+                  backgroundColor: `${temperamentColors.choleric}CC`,
+                  boxShadow: `0 0 20px ${temperamentColors.choleric}40, inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+                }}
               >
                 Powerful Choleric
                 <br />
-                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">Extrovert • Doer • Optimist</span>
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline opacity-90">
+                  Extrovert • Doer • Optimist
+                </span>
               </div>
               <div
-                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
-                style={{ backgroundColor: temperamentColors.melancholy }}
+                className="text-white border border-white/30 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs backdrop-blur-xl shadow-lg"
+                style={{
+                  backgroundColor: `${temperamentColors.melancholy}CC`,
+                  boxShadow: `0 0 20px ${temperamentColors.melancholy}40, inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+                }}
               >
                 Perfect Melancholy
                 <br />
-                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline opacity-90">
                   Introvert • Thinker • Pessimist
                 </span>
               </div>
               <div
-                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
-                style={{ backgroundColor: temperamentColors.phlegmatic }}
+                className="text-white border border-white/30 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs backdrop-blur-xl shadow-lg"
+                style={{
+                  backgroundColor: `${temperamentColors.phlegmatic}CC`,
+                  boxShadow: `0 0 20px ${temperamentColors.phlegmatic}40, inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+                }}
               >
                 Peaceful Phlegmatic
                 <br />
-                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline opacity-90">
                   Introvert • Watcher • Pessimist
                 </span>
               </div>
             </div>
 
             {/* Strengths Section Header */}
-            <div className="bg-blue-200 border border-gray-400 p-1 sm:p-2 text-center font-bold text-xs sm:text-sm">
+            <div
+              className="backdrop-blur-xl bg-blue-400/80 border border-white/30 p-1 sm:p-2 text-center font-bold text-xs sm:text-sm text-white shadow-lg"
+              style={{ boxShadow: "0 0 20px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)" }}
+            >
               Strengths
             </div>
 
             {/* Strengths Rows (1-20) */}
-            <div className="border border-gray-400">
+            <div className="border border-white/30 backdrop-blur-sm bg-white/5 shadow-xl rounded-b-lg overflow-hidden">
               {personalityData.slice(0, 20).map((row, index) => (
                 <div
                   key={index}
-                  className="grid border-b border-gray-300"
+                  className="grid border-b border-white/20 hover:bg-white/10 transition-all duration-200"
                   style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-sm flex items-center justify-center">
+                  <div className="backdrop-blur-sm bg-white/20 border-r border-white/20 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-sm flex items-center justify-center text-white drop-shadow-sm">
                     {index + 1}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
                     <div
                       key={temperament}
-                      className="border-r border-gray-300 px-0.5 py-1.5 sm:p-2 bg-white assessment-cell"
+                      className="border-r border-white/20 px-0.5 py-1.5 sm:p-2 backdrop-blur-sm bg-white/10 assessment-cell hover:bg-white/20 transition-all duration-200"
                     >
                       <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[8px] sm:text-xs leading-none">
                         <input
@@ -1170,9 +1819,11 @@ export default function PersonalityPlusApp() {
                           value={temperament}
                           checked={selections[index] === temperament}
                           onChange={() => handleSelection(index, temperament)}
-                          className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5"
+                          className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5 accent-white"
                         />
-                        <span className="flex-1 leading-tight break-words hyphens-auto font-bold">{trait}</span>
+                        <span className="flex-1 leading-tight break-words hyphens-auto font-bold text-white drop-shadow-sm">
+                          {trait}
+                        </span>
                       </label>
                     </div>
                   ))}
@@ -1180,23 +1831,28 @@ export default function PersonalityPlusApp() {
               ))}
             </div>
 
-            {/* Progress Bar - moved to just above Weaknesses */}
-            <div className="bg-white border-x border-gray-400 p-3 sm:p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs sm:text-sm font-semibold text-gray-700">Progress</span>
-                <span className="text-xs sm:text-sm font-semibold text-gray-700">
+            {/* Progress Bar with enhanced glass effect */}
+            <div
+              className="backdrop-blur-xl bg-white/10 border border-white/30 p-4 sm:p-6 shadow-2xl rounded-2xl my-6"
+              style={{ boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)" }}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm sm:text-base font-semibold text-white drop-shadow-sm">Progress</span>
+                <span className="text-sm sm:text-base font-semibold text-white drop-shadow-sm">
                   {Object.keys(selections).length}/40 completed
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3">
+              <div className="w-full bg-white/20 rounded-full h-3 sm:h-4 backdrop-blur-sm border border-white/30 shadow-inner">
                 <div
-                  className="bg-gradient-to-r from-blue-500 to-green-500 h-2 sm:h-3 rounded-full transition-all duration-300 ease-out"
+                  className="h-3 sm:h-4 rounded-full transition-all duration-500 ease-out shadow-lg"
                   style={{
                     width: `${(Object.keys(selections).length / 40) * 100}%`,
+                    background: "linear-gradient(90deg, #3B82F6, #22C55E, #EF4444, #A855F7)",
+                    boxShadow: "0 0 20px rgba(59, 130, 246, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3)",
                   }}
                 ></div>
               </div>
-              <div className="mt-2 text-xs text-gray-600 text-center">
+              <div className="mt-3 text-xs sm:text-sm text-white/90 text-center backdrop-blur-sm bg-white/10 rounded-full px-4 py-2 border border-white/20 shadow-lg">
                 {Object.keys(selections).length === 0 && "Start by selecting traits that describe you best"}
                 {Object.keys(selections).length > 0 &&
                   Object.keys(selections).length < 20 &&
@@ -1210,25 +1866,28 @@ export default function PersonalityPlusApp() {
             </div>
 
             {/* Weaknesses Section Header */}
-            <div className="bg-yellow-300 border border-gray-400 p-1 sm:p-2 text-center font-bold text-xs sm:text-sm">
+            <div
+              className="backdrop-blur-xl bg-yellow-400/80 border border-white/30 p-1 sm:p-2 text-center font-bold text-xs sm:text-sm text-white shadow-lg"
+              style={{ boxShadow: "0 0 20px rgba(251, 191, 36, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)" }}
+            >
               Weaknesses
             </div>
 
             {/* Weaknesses Rows (21-40) */}
-            <div className="border border-gray-400">
+            <div className="border border-white/30 backdrop-blur-sm bg-white/5 shadow-xl rounded-b-lg overflow-hidden">
               {personalityData.slice(20, 40).map((row, index) => (
                 <div
                   key={index + 20}
-                  className="grid border-b border-gray-300"
+                  className="grid border-b border-white/20 hover:bg-white/10 transition-all duration-200"
                   style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-sm flex items-center justify-center">
+                  <div className="backdrop-blur-sm bg-white/20 border-r border-white/20 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-sm flex items-center justify-center text-white drop-shadow-sm">
                     {index + 21}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
                     <div
                       key={temperament}
-                      className="border-r border-gray-300 px-0.5 py-1.5 sm:p-2 bg-yellow-50 assessment-cell"
+                      className="border-r border-white/20 px-0.5 py-1.5 sm:p-2 backdrop-blur-sm bg-yellow-200/20 assessment-cell hover:bg-yellow-200/30 transition-all duration-200"
                     >
                       <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[8px] sm:text-xs leading-none">
                         <input
@@ -1237,9 +1896,11 @@ export default function PersonalityPlusApp() {
                           value={temperament}
                           checked={selections[index + 20] === temperament}
                           onChange={() => handleSelection(index + 20, temperament)}
-                          className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5"
+                          className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5 accent-white"
                         />
-                        <span className="flex-1 leading-tight break-words hyphens-auto font-bold">{trait}</span>
+                        <span className="flex-1 leading-tight break-words hyphens-auto font-bold text-white drop-shadow-sm">
+                          {trait}
+                        </span>
                       </label>
                     </div>
                   ))}
@@ -1247,21 +1908,33 @@ export default function PersonalityPlusApp() {
               ))}
             </div>
 
-            {/* Scoring Table */}
-            <div className="mt-4 border border-gray-400">
+            {/* Scoring Table with enhanced glass effect */}
+            <div
+              className="mt-6 border border-white/30 backdrop-blur-xl bg-white/10 shadow-2xl rounded-2xl overflow-hidden"
+              style={{ boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)" }}
+            >
               {/* Score Strengths Row */}
               <div
-                className="grid border-b border-gray-300"
+                className="grid border-b border-white/20"
                 style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
               >
-                <div className="bg-yellow-200 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight">
+                <div
+                  className="backdrop-blur-xl bg-yellow-300/80 border-r border-white/20 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight text-white drop-shadow-sm"
+                  style={{ boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2)" }}
+                >
                   Score
                   <br />
                   Strengths
                 </div>
                 {Object.entries(temperamentNames).map(([key, name]) => (
-                  <div key={key} className="bg-yellow-100 border-r border-gray-300 p-1 sm:p-2 text-center">
-                    <div className="text-base sm:text-lg font-bold text-blue-800">
+                  <div
+                    key={key}
+                    className="backdrop-blur-sm bg-yellow-200/20 border-r border-white/20 p-1 sm:p-2 text-center"
+                  >
+                    <div
+                      className="text-base sm:text-lg font-bold text-blue-200 drop-shadow-lg"
+                      style={{ filter: "drop-shadow(0 0 8px rgba(59, 130, 246, 0.8))" }}
+                    >
                       {strengthScores[key as keyof typeof strengthScores]}
                     </div>
                   </div>
@@ -1270,17 +1943,26 @@ export default function PersonalityPlusApp() {
 
               {/* Score Weakness Row */}
               <div
-                className="grid border-b border-gray-300"
+                className="grid border-b border-white/20"
                 style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
               >
-                <div className="bg-yellow-200 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight">
+                <div
+                  className="backdrop-blur-xl bg-yellow-300/80 border-r border-white/20 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight text-white drop-shadow-sm"
+                  style={{ boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2)" }}
+                >
                   Score
                   <br />
                   Weakness
                 </div>
                 {Object.entries(temperamentNames).map(([key, name]) => (
-                  <div key={key} className="bg-yellow-100 border-r border-gray-300 p-1 sm:p-2 text-center">
-                    <div className="text-base sm:text-lg font-bold text-red-800">
+                  <div
+                    key={key}
+                    className="backdrop-blur-sm bg-yellow-200/20 border-r border-white/20 p-1 sm:p-2 text-center"
+                  >
+                    <div
+                      className="text-base sm:text-lg font-bold text-red-300 drop-shadow-lg"
+                      style={{ filter: "drop-shadow(0 0 8px rgba(239, 68, 68, 0.8))" }}
+                    >
                       {weaknessScores[key as keyof typeof weaknessScores]}
                     </div>
                   </div>
@@ -1289,14 +1971,23 @@ export default function PersonalityPlusApp() {
 
               {/* Score Total Row */}
               <div className="grid" style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}>
-                <div className="bg-yellow-300 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight">
+                <div
+                  className="backdrop-blur-xl bg-yellow-400/80 border-r border-white/20 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight text-white drop-shadow-sm"
+                  style={{ boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2)" }}
+                >
                   Score
                   <br />
                   Total
                 </div>
                 {Object.entries(temperamentNames).map(([key, name]) => (
-                  <div key={key} className="bg-yellow-200 border-r border-gray-300 p-1 sm:p-2 text-center">
-                    <div className="text-base sm:text-lg font-bold text-purple-800">
+                  <div
+                    key={key}
+                    className="backdrop-blur-sm bg-yellow-300/20 border-r border-white/20 p-1 sm:p-2 text-center"
+                  >
+                    <div
+                      className="text-base sm:text-lg font-bold text-purple-200 drop-shadow-lg"
+                      style={{ filter: "drop-shadow(0 0 8px rgba(168, 85, 247, 0.8))" }}
+                    >
                       {scores[key as keyof typeof scores]}
                     </div>
                   </div>
@@ -1304,119 +1995,168 @@ export default function PersonalityPlusApp() {
               </div>
             </div>
 
-            {/* Save and Refresh Buttons - Apple Liquid Glass Style */}
-            <div className="mt-6 flex justify-center gap-4">
-              <button
-                onClick={handleSaveResults}
-                disabled={savedData !== null}
-                className={`w-40 h-12 rounded-2xl font-semibold text-white transition-all duration-300 backdrop-blur-md border border-white/20 shadow-lg ${
-                  savedData === null
-                    ? "bg-gradient-to-br from-green-400/80 to-green-600/80 hover:from-green-500/90 hover:to-green-700/90 hover:shadow-xl hover:scale-105 active:scale-95"
-                    : "bg-gradient-to-br from-gray-300/60 to-gray-500/60 cursor-not-allowed opacity-60"
-                }`}
+            {/* Save Results Popup with enhanced glass effect */}
+            {showSavePopup && (
+              <div
+                className="mt-6 p-6 backdrop-blur-2xl bg-white/10 rounded-3xl shadow-2xl border border-white/20 mx-auto max-w-sm relative overflow-hidden"
                 style={{
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
+                  boxShadow:
+                    "0 0 60px rgba(255, 255, 255, 0.2), 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
                 }}
               >
-                <span className="flex items-center justify-center gap-2">Save Results</span>
-              </button>
-              <button
-                onClick={handleRefresh}
-                className="w-40 h-12 rounded-2xl font-semibold text-white bg-gradient-to-br from-red-400/80 to-red-600/80 hover:from-red-500/90 hover:to-red-700/90 shadow-lg transition-all duration-300 backdrop-blur-md border border-white/20 hover:shadow-xl hover:scale-105 active:scale-95"
-                style={{
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                }}
-              >
-                <span className="flex items-center justify-center gap-2">Refresh</span>
-              </button>
-            </div>
+                {/* Popup glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 opacity-50 blur-xl" />
 
-            {/* Saved Data Display */}
-            {savedData && (
-              <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg text-center">
-                <p className="text-green-800 font-semibold">
-                  ✅ Results saved for: <span className="font-bold">{savedData.name}</span>
+                <h3 className="text-lg font-bold text-center mb-3 text-white drop-shadow-lg relative z-10">
+                  Save Assessment Results
+                </h3>
+                <p className="text-white/80 text-center mb-4 text-sm drop-shadow-sm relative z-10">
+                  Enter your name to save the assessment results
                 </p>
-                <p className="text-green-600 text-sm">Saved on: {savedData.date}</p>
+                <input
+                  type="text"
+                  value={personName}
+                  onChange={(e) => setPersonName(e.target.value)}
+                  placeholder="Enter your full name"
+                  className="w-full p-3 backdrop-blur-xl bg-white/20 border border-white/30 rounded-2xl mb-4 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-200 text-white placeholder-white/60 shadow-lg relative z-10"
+                  style={{ boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.1)" }}
+                  autoFocus
+                />
+                <div className="flex gap-3 relative z-10">
+                  <button
+                    onClick={() => {
+                      setShowSavePopup(false)
+                      setPersonName("")
+                    }}
+                    className="flex-1 h-12 backdrop-blur-xl bg-gray-500/60 text-white rounded-2xl hover:bg-gray-500/80 transition-all duration-300 font-semibold hover:scale-105 active:scale-95 shadow-lg border border-white/20"
+                    style={{
+                      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmSave}
+                    disabled={!personName.trim()}
+                    className={`flex-1 h-12 rounded-2xl transition-all duration-300 font-semibold hover:scale-105 active:scale-95 shadow-lg border border-white/20 ${
+                      personName.trim()
+                        ? "backdrop-blur-xl bg-green-500/60 text-white hover:bg-green-500/80"
+                        : "backdrop-blur-xl bg-gray-400/40 text-white/60 cursor-not-allowed opacity-60"
+                    }`}
+                    style={{
+                      boxShadow: personName.trim()
+                        ? "0 0 20px rgba(34, 197, 94, 0.4), 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+                        : "0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                    }}
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
             )}
 
-            {/* Save Results Popup - 90% Transparent */}
-            {showSavePopup && (
-              <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 backdrop-blur-sm">
-                <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 w-80 mx-4 shadow-2xl border border-white/20">
-                  <h3 className="text-xl font-bold text-center mb-4 text-gray-800">Save Assessment Results</h3>
-                  <p className="text-gray-600 text-center mb-6">Enter your name to save the assessment results</p>
-                  <input
-                    type="text"
-                    value={personName}
-                    onChange={(e) => setPersonName(e.target.value)}
-                    placeholder="Enter your full name"
-                    className="w-full p-4 border border-gray-200 rounded-2xl mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent bg-white/80 backdrop-blur-sm transition-all duration-200"
-                    autoFocus
-                  />
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => {
-                        setShowSavePopup(false)
-                        setPersonName("")
-                      }}
-                      className="flex-1 h-12 bg-gradient-to-br from-gray-400/80 to-gray-600/80 text-white rounded-2xl hover:from-gray-500/90 hover:to-gray-700/90 transition-all duration-300 backdrop-blur-md border border-white/20 font-semibold hover:scale-105 active:scale-95"
-                      style={{
-                        backdropFilter: "blur(20px)",
-                        WebkitBackdropFilter: "blur(20px)",
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={confirmSave}
-                      disabled={!personName.trim()}
-                      className={`flex-1 h-12 rounded-2xl transition-all duration-300 backdrop-blur-md border border-white/20 font-semibold hover:scale-105 active:scale-95 ${
-                        personName.trim()
-                          ? "bg-gradient-to-br from-green-400/80 to-green-600/80 text-white hover:from-green-500/90 hover:to-green-700/90"
-                          : "bg-gradient-to-br from-gray-300/60 to-gray-500/60 text-gray-400 cursor-not-allowed opacity-60"
-                      }`}
-                      style={{
-                        backdropFilter: "blur(20px)",
-                        WebkitBackdropFilter: "blur(20px)",
-                      }}
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
+            {/* Save and Refresh Buttons with enhanced glass effect */}
+            <div className="mt-8 flex justify-center gap-6">
+              <button
+                onClick={handleSaveResults}
+                disabled={savedData !== null}
+                className={`w-48 h-14 rounded-3xl font-semibold text-white transition-all duration-300 backdrop-blur-2xl border border-white/30 shadow-2xl ${
+                  savedData === null
+                    ? "bg-green-500/60 hover:bg-green-500/80 hover:shadow-2xl hover:scale-105 active:scale-95"
+                    : "bg-gray-400/40 cursor-not-allowed opacity-60"
+                }`}
+                style={{
+                  boxShadow:
+                    savedData === null
+                      ? "0 0 40px rgba(34, 197, 94, 0.4), 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+                      : "0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                  animation: savedData === null ? "float 4s ease-in-out infinite" : "none",
+                }}
+              >
+                <span className="flex items-center justify-center gap-2 drop-shadow-lg">Save Results</span>
+              </button>
+              <button
+                onClick={handleRefresh}
+                className="w-48 h-14 rounded-3xl font-semibold text-white backdrop-blur-2xl bg-red-500/60 hover:bg-red-500/80 shadow-2xl transition-all duration-300 border border-white/30 hover:shadow-2xl hover:scale-105 active:scale-95"
+                style={{
+                  boxShadow:
+                    "0 0 40px rgba(239, 68, 68, 0.4), 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                  animation: "float 4s ease-in-out infinite",
+                  animationDelay: "2s",
+                }}
+              >
+                <span className="flex items-center justify-center gap-2 drop-shadow-lg">Refresh</span>
+              </button>
+            </div>
+
+            {/* Saved Data Display with enhanced glass effect */}
+            {savedData && (
+              <div
+                className="mt-6 p-6 backdrop-blur-2xl bg-green-500/20 border border-green-400/30 rounded-3xl text-center shadow-2xl relative overflow-hidden"
+                style={{
+                  boxShadow:
+                    "0 0 40px rgba(34, 197, 94, 0.3), 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                {/* Success glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-emerald-500/20 opacity-50 blur-xl" />
+
+                <p className="text-white font-semibold drop-shadow-lg relative z-10">
+                  ✅ Results saved for: <span className="font-bold">{savedData.name}</span>
+                </p>
+                <p className="text-white/80 text-sm drop-shadow-sm relative z-10">Saved on: {savedData.date}</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* Page 3 - Charts (moved to the right) */}
+        {/* Page 3 - Charts */}
         <div className="w-full flex-shrink-0 p-2 sm:p-4 overflow-y-auto">
           <div className="max-w-2xl mx-auto pt-12 sm:pt-16">
             <RadarChart data={strengthScores} title="Personality Profile Strengths" />
             <RadarChart data={weaknessScores} title="Personality Profile Weaknesses" />
-            {/* Special header for Total Profile */}
-            <div className="text-center mb-3 sm:mb-4 px-2">
-              <div className="inline-block bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 sm:px-6 py-2 rounded-full shadow-lg">
-                <span className="text-sm sm:text-lg font-bold">🎯 YOUR COMPLETE PERSONALITY PROFILE</span>
-              </div>
-            </div>
-            <RadarChart data={scores} title="Total Personality Profile" isTotal={true} />
 
-            {/* Print Button */}
-            <div className="flex justify-center mt-8 mb-6">
-              <button
-                onClick={handlePrint}
-                className="w-48 h-14 rounded-2xl font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg transition-all duration-300 backdrop-blur-md border border-white/20 hover:shadow-xl hover:scale-105 active:scale-95"
+            {/* Special header for Total Profile with enhanced effects */}
+            <div className="text-center mb-6 sm:mb-8 px-2">
+              <div
+                className="inline-block backdrop-blur-2xl bg-gradient-to-r from-purple-500/60 to-blue-500/60 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-2xl border border-white/30 relative overflow-hidden"
                 style={{
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
+                  boxShadow:
+                    "0 0 60px rgba(147, 51, 234, 0.4), 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                  animation: "float 5s ease-in-out infinite",
                 }}
               >
-                <span className="flex items-center justify-center gap-2">Print Report</span>
+                {/* Header glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/30 to-blue-400/30 opacity-50 blur-lg" />
+
+                <span className="text-sm sm:text-lg font-bold drop-shadow-lg relative z-10">
+                  🎯 YOUR COMPLETE PERSONALITY PROFILE
+                </span>
+              </div>
+            </div>
+
+            <RadarChart data={scores} title="Total Personality Profile" isTotal={true} />
+
+            {/* Print Button with enhanced glass effect */}
+            <div className="flex justify-center mt-10 mb-8">
+              <button
+                onClick={handlePrint}
+                disabled={isGeneratingPDF}
+                className={`w-56 h-16 rounded-3xl font-semibold text-white shadow-2xl transition-all duration-300 backdrop-blur-2xl border border-white/30 hover:shadow-2xl hover:scale-105 active:scale-95 ${
+                  isGeneratingPDF
+                    ? "bg-gray-500/60 cursor-not-allowed"
+                    : "bg-gradient-to-r from-purple-500/60 to-blue-500/60 hover:from-purple-600/80 hover:to-blue-600/80"
+                }`}
+                style={{
+                  boxShadow: isGeneratingPDF
+                    ? "0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+                    : "0 0 60px rgba(147, 51, 234, 0.4), 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                  animation: isGeneratingPDF ? "none" : "float 6s ease-in-out infinite",
+                }}
+              >
+                <span className="flex items-center justify-center gap-3 drop-shadow-lg text-lg">
+                  {isGeneratingPDF ? "Generating PDF..." : "Print Report"}
+                </span>
               </button>
             </div>
           </div>
