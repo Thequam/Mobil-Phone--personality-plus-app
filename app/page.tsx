@@ -587,11 +587,11 @@ const PersonalityDetailsPage = () => {
           <p className="text-sm sm:text-lg opacity-90">{currentDetail.subtitle}</p>
         </CardHeader>
         <CardContent className="p-3 sm:p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4 lg:gap-6">
             {/* Strengths */}
             <div>
-              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">STRENGTHS</h4>
-              <div className="space-y-0.5 sm:space-y-1">
+              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">STRENGTHS</h4>
+              <div className="space-y-0 sm:space-y-0.5">
                 {currentDetail.sections.strengths.map((strength, idx) => (
                   <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
@@ -606,8 +606,8 @@ const PersonalityDetailsPage = () => {
 
             {/* Emotions */}
             <div>
-              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">EMOTIONS</h4>
-              <div className="space-y-0.5 sm:space-y-1">
+              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">EMOTIONS</h4>
+              <div className="space-y-0 sm:space-y-0.5">
                 {currentDetail.sections.emotions.map((emotion, idx) => (
                   <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
@@ -622,8 +622,8 @@ const PersonalityDetailsPage = () => {
 
             {/* At Work */}
             <div>
-              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">AT WORK</h4>
-              <div className="space-y-0.5 sm:space-y-1">
+              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">AT WORK</h4>
+              <div className="space-y-0 sm:space-y-0.5">
                 {currentDetail.sections.atWork.map((work, idx) => (
                   <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
@@ -638,8 +638,8 @@ const PersonalityDetailsPage = () => {
 
             {/* As Parent */}
             <div>
-              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">AS PARENT</h4>
-              <div className="space-y-0.5 sm:space-y-1">
+              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">AS PARENT</h4>
+              <div className="space-y-0 sm:space-y-0.5">
                 {currentDetail.sections.asParent.map((parent, idx) => (
                   <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
@@ -654,8 +654,8 @@ const PersonalityDetailsPage = () => {
 
             {/* As Friend */}
             <div>
-              <h4 className="font-bold text-sm sm:text-base mb-2 sm:mb-3 text-gray-800">AS FRIEND</h4>
-              <div className="space-y-0.5 sm:space-y-1">
+              <h4 className="font-bold text-sm sm:text-base mb-1 sm:mb-2 text-gray-800">AS FRIEND</h4>
+              <div className="space-y-0 sm:space-y-0.5">
                 {currentDetail.sections.asFriend.map((friend, idx) => (
                   <div key={idx} className="text-[10px] sm:text-xs text-gray-700 flex items-start">
                     <span
