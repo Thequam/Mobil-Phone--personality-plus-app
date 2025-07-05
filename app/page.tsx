@@ -1090,30 +1090,43 @@ export default function PersonalityPlusApp() {
             </div>
 
             {/* Column Headers */}
+            <style jsx global>{`
+              .assessment-cell {
+                word-break: break-word;
+                hyphens: auto;
+                overflow-wrap: break-word;
+              }
+            `}</style>
             <div
               className="grid border-b-2 border-gray-400"
               style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
             >
-              <div className="bg-gray-200 border border-gray-400 p-1 sm:p-2 text-center font-bold text-xs sm:text-sm"></div>
-              <div className="bg-blue-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-xs">
+              <div className="bg-gray-200 border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm"></div>
+              <div className="bg-blue-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
                 Popular Sanguine
                 <br />
-                <span className="text-xs font-normal hidden sm:inline">Extrovert • Talker • Optimist</span>
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
+                  Extrovert • Talker • Optimist
+                </span>
               </div>
-              <div className="bg-red-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-xs">
+              <div className="bg-red-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
                 Powerful Choleric
                 <br />
-                <span className="text-xs font-normal hidden sm:inline">Extrovert • Doer • Optimist</span>
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">Extrovert • Doer • Optimist</span>
               </div>
-              <div className="bg-green-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-xs">
+              <div className="bg-green-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
                 Perfect Melancholy
                 <br />
-                <span className="text-xs font-normal hidden sm:inline">Introvert • Thinker • Pessimist</span>
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
+                  Introvert • Thinker • Pessimist
+                </span>
               </div>
-              <div className="bg-yellow-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-xs">
+              <div className="bg-yellow-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
                 Peaceful Phlegmatic
                 <br />
-                <span className="text-xs font-normal hidden sm:inline">Introvert • Watcher • Pessimist</span>
+                <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
+                  Introvert • Watcher • Pessimist
+                </span>
               </div>
             </div>
 
@@ -1130,21 +1143,24 @@ export default function PersonalityPlusApp() {
                   className="grid border-b border-gray-300"
                   style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-xs sm:text-sm flex items-center justify-center">
+                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm flex items-center justify-center">
                     {index + 1}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
-                    <div key={temperament} className="border-r border-gray-300 px-1 py-1 sm:p-2 bg-white">
-                      <label className="flex items-center space-x-1 sm:space-x-2 cursor-pointer text-xs">
+                    <div
+                      key={temperament}
+                      className="border-r border-gray-300 px-0.5 py-1.5 sm:p-2 bg-white assessment-cell"
+                    >
+                      <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[7px] sm:text-xs leading-none">
                         <input
                           type="radio"
                           name={`row-${index}`}
                           value={temperament}
                           checked={selections[index] === temperament}
                           onChange={() => handleSelection(index, temperament)}
-                          className="w-3 h-3 flex-shrink-0"
+                          className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5"
                         />
-                        <span className="flex-1 leading-tight">{trait}</span>
+                        <span className="flex-1 leading-tight break-words hyphens-auto">{trait}</span>
                       </label>
                     </div>
                   ))}
@@ -1194,21 +1210,24 @@ export default function PersonalityPlusApp() {
                   className="grid border-b border-gray-300"
                   style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-xs sm:text-sm flex items-center justify-center">
+                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm flex items-center justify-center">
                     {index + 21}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
-                    <div key={temperament} className="border-r border-gray-300 px-1 py-1 sm:p-2 bg-yellow-50">
-                      <label className="flex items-center space-x-1 sm:space-x-2 cursor-pointer text-xs">
+                    <div
+                      key={temperament}
+                      className="border-r border-gray-300 px-0.5 py-1.5 sm:p-2 bg-yellow-50 assessment-cell"
+                    >
+                      <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[7px] sm:text-xs leading-none">
                         <input
                           type="radio"
                           name={`row-${index + 20}`}
                           value={temperament}
                           checked={selections[index + 20] === temperament}
                           onChange={() => handleSelection(index + 20, temperament)}
-                          className="w-3 h-3 flex-shrink-0"
+                          className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5"
                         />
-                        <span className="flex-1 leading-tight">{trait}</span>
+                        <span className="flex-1 leading-tight break-words hyphens-auto">{trait}</span>
                       </label>
                     </div>
                   ))}
