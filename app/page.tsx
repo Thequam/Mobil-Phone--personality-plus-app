@@ -846,7 +846,7 @@ export default function PersonalityPlusApp() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-center">
           {/* Radar Chart */}
           <div className="flex flex-col items-center">
-            <h4 className="text-sm sm:text-base font-semibold mb-1 sm:mb-2 text-gray-700">Radar View</h4>
+            <h4 className="text-sm sm:text-base font-semibold mb-0.5 sm:mb-1 text-gray-700">Radar View</h4>
             <div className="relative flex justify-center px-12 py-8">
               <svg width="240" height="240" viewBox="0 0 200 200" className="mb-3 sm:mb-4 sm:w-[270px] sm:h-[270px]">
                 {/* Grid lines */}
@@ -938,7 +938,7 @@ export default function PersonalityPlusApp() {
 
           {/* Vertical Bar Chart */}
           <div className="flex flex-col items-center">
-            <h4 className="text-sm sm:text-base font-semibold mb-1 sm:mb-2 text-gray-700">Bar Chart View</h4>
+            <h4 className="text-sm sm:text-base font-semibold mb-0.5 sm:mb-1 text-gray-700">Bar Chart View</h4>
             <div className="w-full max-w-xs sm:max-w-sm flex justify-center">
               <svg width="100%" height="250" viewBox="0 0 280 250" className="mb-3 sm:mb-4 sm:h-[300px]">
                 {/* Grid lines */}
