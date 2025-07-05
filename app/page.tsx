@@ -1099,7 +1099,7 @@ export default function PersonalityPlusApp() {
             `}</style>
             <div
               className="grid border-b-2 border-gray-400"
-              style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
+              style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
             >
               <div className="bg-gray-200 border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm"></div>
               <div className="bg-blue-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
@@ -1141,9 +1141,9 @@ export default function PersonalityPlusApp() {
                 <div
                   key={index}
                   className="grid border-b border-gray-300"
-                  style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
+                  style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm flex items-center justify-center">
+                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[5px] sm:text-xs flex items-center justify-center">
                     {index + 1}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
@@ -1151,7 +1151,7 @@ export default function PersonalityPlusApp() {
                       key={temperament}
                       className="border-r border-gray-300 px-0.5 py-1.5 sm:p-2 bg-white assessment-cell"
                     >
-                      <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[7px] sm:text-xs leading-none">
+                      <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[8px] sm:text-xs leading-none">
                         <input
                           type="radio"
                           name={`row-${index}`}
@@ -1208,9 +1208,9 @@ export default function PersonalityPlusApp() {
                 <div
                   key={index + 20}
                   className="grid border-b border-gray-300"
-                  style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
+                  style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm flex items-center justify-center">
+                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[5px] sm:text-xs flex items-center justify-center">
                     {index + 21}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
@@ -1218,7 +1218,7 @@ export default function PersonalityPlusApp() {
                       key={temperament}
                       className="border-r border-gray-300 px-0.5 py-1.5 sm:p-2 bg-yellow-50 assessment-cell"
                     >
-                      <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[7px] sm:text-xs leading-none">
+                      <label className="flex items-start space-x-1 sm:space-x-2 cursor-pointer text-[8px] sm:text-xs leading-none">
                         <input
                           type="radio"
                           name={`row-${index + 20}`}
@@ -1240,9 +1240,9 @@ export default function PersonalityPlusApp() {
               {/* Score Strengths Row */}
               <div
                 className="grid border-b border-gray-300"
-                style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
+                style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
               >
-                <div className="bg-yellow-200 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-xs leading-tight">
+                <div className="bg-yellow-200 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight">
                   Score
                   <br />
                   Strengths
@@ -1259,9 +1259,9 @@ export default function PersonalityPlusApp() {
               {/* Score Weakness Row */}
               <div
                 className="grid border-b border-gray-300"
-                style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}
+                style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
               >
-                <div className="bg-yellow-200 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-xs leading-tight">
+                <div className="bg-yellow-200 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight">
                   Score
                   <br />
                   Weakness
@@ -1276,8 +1276,8 @@ export default function PersonalityPlusApp() {
               </div>
 
               {/* Score Total Row */}
-              <div className="grid" style={{ gridTemplateColumns: "60px 0.9fr 0.9fr 0.9fr 0.9fr" }}>
-                <div className="bg-yellow-300 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-xs leading-tight">
+              <div className="grid" style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}>
+                <div className="bg-yellow-300 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-xs leading-tight">
                   Score
                   <br />
                   Total
