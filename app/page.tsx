@@ -1631,6 +1631,37 @@ export default function PersonalityPlusApp() {
           hyphens: auto;
           overflow-wrap: break-word;
         }
+
+        /* Radio button styling for assessment page */
+        input[type="radio"] {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 12px;
+          height: 12px;
+          border: 2px solid rgba(255, 255, 255, 0.6);
+          border-radius: 50%;
+          background: transparent;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        input[type="radio"]:checked {
+          background: #000000;
+          border-color: #000000;
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="radio"]:hover {
+          border-color: rgba(255, 255, 255, 0.8);
+          transform: scale(1.1);
+        }
+
+        @media (min-width: 640px) {
+          input[type="radio"] {
+            width: 16px;
+            height: 16px;
+          }
+        }
       `}</style>
 
       {/* Ambient lighting overlay */}
