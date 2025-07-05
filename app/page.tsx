@@ -846,7 +846,7 @@ export default function PersonalityPlusApp() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-center">
           {/* Radar Chart */}
           <div className="flex flex-col items-center">
-            <h4 className="text-sm sm:text-base font-semibold mb-3 sm:mb-4 text-gray-700">Radar View</h4>
+            <h4 className="text-sm sm:text-base font-semibold mb-1 sm:mb-2 text-gray-700">Radar View</h4>
             <div className="relative flex justify-center px-12 py-8">
               <svg width="240" height="240" viewBox="0 0 200 200" className="mb-3 sm:mb-4 sm:w-[270px] sm:h-[270px]">
                 {/* Grid lines */}
@@ -938,7 +938,7 @@ export default function PersonalityPlusApp() {
 
           {/* Vertical Bar Chart */}
           <div className="flex flex-col items-center">
-            <h4 className="text-sm sm:text-base font-semibold mb-3 sm:mb-4 text-gray-700">Bar Chart View</h4>
+            <h4 className="text-sm sm:text-base font-semibold mb-1 sm:mb-2 text-gray-700">Bar Chart View</h4>
             <div className="w-full max-w-xs sm:max-w-sm flex justify-center">
               <svg width="100%" height="250" viewBox="0 0 280 250" className="mb-3 sm:mb-4 sm:h-[300px]">
                 {/* Grid lines */}
@@ -1018,10 +1018,10 @@ export default function PersonalityPlusApp() {
                 style={{ backgroundColor: temperamentColors[temperament as keyof typeof temperamentColors] }}
               />
               <div className="flex flex-col min-w-0">
-                <div className="text-[8px] sm:text-[10px] font-medium leading-tight truncate">
+                <div className="text-[6px] sm:text-[8px] font-medium leading-tight truncate">
                   {temperamentNames[temperament as keyof typeof temperamentNames]}
                 </div>
-                <div className="text-xs sm:text-sm font-bold text-center">{score}</div>
+                <div className="text-[10px] sm:text-xs font-bold text-center">{score}</div>
               </div>
             </div>
           ))}
@@ -1102,26 +1102,38 @@ export default function PersonalityPlusApp() {
               style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
             >
               <div className="bg-gray-200 border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-sm"></div>
-              <div className="bg-blue-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
+              <div
+                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
+                style={{ backgroundColor: temperamentColors.sanguine }}
+              >
                 Popular Sanguine
                 <br />
                 <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
                   Extrovert • Talker • Optimist
                 </span>
               </div>
-              <div className="bg-red-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
+              <div
+                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
+                style={{ backgroundColor: temperamentColors.choleric }}
+              >
                 Powerful Choleric
                 <br />
                 <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">Extrovert • Doer • Optimist</span>
               </div>
-              <div className="bg-green-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
+              <div
+                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
+                style={{ backgroundColor: temperamentColors.melancholy }}
+              >
                 Perfect Melancholy
                 <br />
                 <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
                   Introvert • Thinker • Pessimist
                 </span>
               </div>
-              <div className="bg-yellow-500 text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs">
+              <div
+                className="text-white border border-gray-400 p-1 sm:p-2 text-center font-bold text-[8px] sm:text-xs"
+                style={{ backgroundColor: temperamentColors.phlegmatic }}
+              >
                 Peaceful Phlegmatic
                 <br />
                 <span className="text-[7px] sm:text-xs font-normal hidden sm:inline">
@@ -1143,7 +1155,7 @@ export default function PersonalityPlusApp() {
                   className="grid border-b border-gray-300"
                   style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[5px] sm:text-xs flex items-center justify-center">
+                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-sm flex items-center justify-center">
                     {index + 1}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
@@ -1160,7 +1172,7 @@ export default function PersonalityPlusApp() {
                           onChange={() => handleSelection(index, temperament)}
                           className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5"
                         />
-                        <span className="flex-1 leading-tight break-words hyphens-auto">{trait}</span>
+                        <span className="flex-1 leading-tight break-words hyphens-auto font-bold">{trait}</span>
                       </label>
                     </div>
                   ))}
@@ -1210,7 +1222,7 @@ export default function PersonalityPlusApp() {
                   className="grid border-b border-gray-300"
                   style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
                 >
-                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[5px] sm:text-xs flex items-center justify-center">
+                  <div className="bg-gray-100 border-r border-gray-300 p-1 sm:p-2 text-center font-bold text-[6px] sm:text-sm flex items-center justify-center">
                     {index + 21}
                   </div>
                   {Object.entries(row).map(([temperament, trait]) => (
@@ -1227,7 +1239,7 @@ export default function PersonalityPlusApp() {
                           onChange={() => handleSelection(index + 20, temperament)}
                           className="w-2 h-2 sm:w-3 sm:h-3 flex-shrink-0 mt-0.5"
                         />
-                        <span className="flex-1 leading-tight break-words hyphens-auto">{trait}</span>
+                        <span className="flex-1 leading-tight break-words hyphens-auto font-bold">{trait}</span>
                       </label>
                     </div>
                   ))}
