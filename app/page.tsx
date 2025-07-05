@@ -1624,6 +1624,13 @@ export default function PersonalityPlusApp() {
           0%, 100% { opacity: 0.5; }
           50% { opacity: 1; }
         }
+
+        /* moved here from the deleted inner style tag */
+        .assessment-cell {
+          word-break: break-word;
+          hyphens: auto;
+          overflow-wrap: break-word;
+        }
       `}</style>
 
       {/* Ambient lighting overlay */}
@@ -1722,13 +1729,6 @@ export default function PersonalityPlusApp() {
             </div>
 
             {/* Column Headers with enhanced styling */}
-            <style jsx global>{`
-              .assessment-cell {
-                word-break: break-word;
-                hyphens: auto;
-                overflow-wrap: break-word;
-              }
-            `}</style>
             <div
               className="grid border-b-2 border-white/30 backdrop-blur-sm"
               style={{ gridTemplateColumns: "35px 0.9fr 0.9fr 0.9fr 0.9fr" }}
