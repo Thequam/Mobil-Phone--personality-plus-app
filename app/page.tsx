@@ -503,6 +503,90 @@ const personalityDetails = [
   },
 ]
 
+// Welcome Screen Component
+const WelcomeScreen = ({ onStartAssessment }: { onStartAssessment: () => void }) => {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Background overlay with glass morphism */}
+      <div
+        className="absolute inset-0 backdrop-blur-2xl"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 25%, rgba(51, 65, 85, 0.9) 50%, rgba(30, 64, 175, 0.9) 75%, rgba(59, 130, 246, 0.9) 100%)",
+        }}
+      />
+
+      {/* Ambient lighting effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -left-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div
+          className="absolute -bottom-40 -right-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "2s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "4s" }}
+        />
+      </div>
+
+      {/* Welcome content */}
+      <div
+        className="relative max-w-2xl w-full backdrop-blur-2xl bg-white/10 rounded-3xl border border-white/20 shadow-2xl p-8 sm:p-12 text-center overflow-hidden"
+        style={{
+          boxShadow:
+            "0 0 60px rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+          animation: "float 6s ease-in-out infinite",
+        }}
+      >
+        {/* Content glow effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-50 blur-xl" />
+
+        <div className="relative z-10">
+          {/* Title */}
+          <h1
+            className="text-3xl sm:text-4xl font-bold text-white mb-6 drop-shadow-lg"
+            style={{
+              textShadow: "0 0 30px rgba(59, 130, 246, 0.8), 0 4px 8px rgba(0, 0, 0, 0.3)",
+              filter: "drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))",
+            }}
+          >
+            Welcome to Personality Profile!
+          </h1>
+
+          {/* Description */}
+          <div className="text-white/90 text-base sm:text-lg leading-relaxed mb-8 space-y-4 drop-shadow-sm">
+            <p>
+              Discover your unique blend of personality traits and how they influence your emotions, relationships, and
+              daily life.
+            </p>
+            <p>
+              This app features a practical, easy-to-use personality test based on the classic four temperament types —
+              each with its own strengths and challenges.
+            </p>
+            <p>
+              Understand yourself better, improve how you relate to others, and unlock new ways to grow personally and
+              professionally.
+            </p>
+          </div>
+
+          {/* Start Assessment Button */}
+          <button
+            onClick={onStartAssessment}
+            className="w-full sm:w-auto px-12 py-4 rounded-2xl font-semibold text-lg text-white backdrop-blur-xl bg-gradient-to-r from-blue-500/60 to-purple-500/60 hover:from-blue-600/80 hover:to-purple-600/80 shadow-2xl transition-all duration-300 border border-white/30 hover:shadow-2xl hover:scale-105 active:scale-95"
+            style={{
+              boxShadow:
+                "0 0 40px rgba(59, 130, 246, 0.4), 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+              animation: "glow 3s ease-in-out infinite",
+            }}
+          >
+            <span className="flex items-center justify-center gap-3 drop-shadow-lg">Start Assessment</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const PersonalityDetailsPage = () => {
   const [currentPersonality, setCurrentPersonality] = useState(0)
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
@@ -784,6 +868,7 @@ const PersonalityDetailsPage = () => {
 }
 
 export default function PersonalityPlusApp() {
+  const [showWelcome, setShowWelcome] = useState(true)
   const [currentPage, setCurrentPage] = useState(2) // Start at page 2 (Home page, which is now in the middle)
   const [selections, setSelections] = useState<{ [key: number]: string }>({})
   const containerRef = useRef<HTMLDivElement>(null)
@@ -799,6 +884,11 @@ export default function PersonalityPlusApp() {
   } | null>(null)
   const [showSavePopup, setShowSavePopup] = useState(false)
   const [personName, setPersonName] = useState("")
+
+  const handleStartAssessment = () => {
+    setShowWelcome(false)
+    setCurrentPage(2) // Navigate to assessment page
+  }
 
   const handleSelection = (rowIndex: number, temperament: string) => {
     setSelections((prev) => ({
@@ -1792,7 +1882,7 @@ export default function PersonalityPlusApp() {
           {/* Radar Chart */}
           <div className="flex flex-col items-center">
             <div className="backdrop-blur-sm bg-white/10 rounded-full px-3 py-1 border border-white/20 shadow-lg mb-3">
-              <h4 className="text-sm sm:text-base font-semib old text-white drop-shadow-sm">Radar View</h4>
+              <h4 className="text-sm sm:text-base font-semibold text-white drop-shadow-sm">Radar View</h4>
             </div>
             <div className="relative flex justify-center px-12 py-8">
               <svg
@@ -2037,6 +2127,11 @@ export default function PersonalityPlusApp() {
     )
   }
 
+  // Show welcome screen if it's the first time
+  if (showWelcome) {
+    return <WelcomeScreen onStartAssessment={handleStartAssessment} />
+  }
+
   return (
     <div
       className="min-h-screen overflow-hidden relative"
@@ -2053,19 +2148,35 @@ export default function PersonalityPlusApp() {
       {/* Global gradient animation */}
       <style jsx global>{`
         @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
-        
+
         @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
         }
-        
+
         @keyframes glow {
-          0%, 100% { opacity: 0.5; }
-          50% { opacity: 1; }
+          0%,
+          100% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 1;
+          }
         }
 
         /* moved here from the deleted inner style tag */
@@ -2836,42 +2947,4 @@ export default function PersonalityPlusApp() {
               <div key={detail.key} className="personality-card">
                 <div className="personality-header" style={{ backgroundColor: detail.color }}>
                   <div>{detail.title}</div>
-                  <div style={{ fontSize: "9px", opacity: 0.9 }}>{detail.subtitle}</div>
-                </div>
-                <div className="personality-content">
-                  <div className="section-title">STRENGTHS</div>
-                  {detail.sections.strengths.slice(0, 6).map((item, idx) => (
-                    <div key={idx} className="trait-item">
-                      • {item}
-                    </div>
-                  ))}
-
-                  <div className="section-title">EMOTIONS</div>
-                  {detail.sections.emotions.slice(0, 3).map((item, idx) => (
-                    <div key={idx} className="trait-item">
-                      • {item}
-                    </div>
-                  ))}
-
-                  <div className="section-title">AT WORK</div>
-                  {detail.sections.atWork.slice(0, 3).map((item, idx) => (
-                    <div key={idx} className="trait-item">
-                      • {item}
-                    </div>
-                  ))}
-
-                  <div className="section-title">AS FRIEND</div>
-                  {detail.sections.asFriend.slice(0, 3).map((item, idx) => (
-                    <div key={idx} className="trait-item">
-                      • {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+                  <div style={{ fontSize: "9px",\
